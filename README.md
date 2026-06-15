@@ -7,25 +7,34 @@ A comprehensive web application for genetic counseling, pedigree analysis, and m
 - [Prerequisites](#prerequisites)
 - [Project Architecture](#project-architecture)
 - [Installation & Setup](#installation--setup)
+  - [Docker Setup (Recommended)](#docker-setup-recommended)
+  - [Native Setup (XAMPP / Manual)](#native-setup-xampp--manual)
 - [Running the Application](#running-the-application)
 - [Services Overview](#services-overview)
 - [Troubleshooting](#troubleshooting)
 
+---
+
 ## 🛠 Prerequisites
 
-Before you begin, ensure you have the following installed on your machine:
+Before you begin, ensure you have the following installed on your machine depending on your Operating System:
 
-1.  **Docker Desktop** (Required)
+### 💻 Windows
+1. **Docker Desktop**: Download and install [Docker Desktop for Windows](https://www.docker.com/products/docker-desktop/). Ensure WSL 2 backend is enabled.
+2. **Git**: Download and install [Git for Windows](https://git-scm.com/downloads).
+3. **Python 3.8+** (For native execution): Download and install [Python](https://www.python.org/downloads/windows/).
 
-    - Download: [https://www.docker.com/products/docker-desktop/](https://www.docker.com/products/docker-desktop/)
-    - _Note:_ Ensure Docker Engine is running.
+### 🍎 macOS
+1. **Docker Desktop**: Download and install [Docker Desktop for Mac](https://www.docker.com/products/docker-desktop/) (Choose Intel or Apple Silicon/M-series chips accordingly).
+2. **Git**: Installed by default or via Homebrew (`brew install git`).
+3. **Python 3.8+** (For native execution): Installed via Homebrew (`brew install python@3.11`).
 
-2.  **Git** (Required for cloning)
-
-    - Download: [https://git-scm.com/downloads](https://git-scm.com/downloads)
-
-3.  **Visual Studio Code** (Recommended for editing)
-    - Download: [https://code.visualstudio.com/](https://code.visualstudio.com/)
+### 🐧 Linux (Ubuntu/Debian/CentOS)
+1. **Docker Engine & Docker Compose**: 
+   - [Install Docker Engine](https://docs.docker.com/engine/install/)
+   - [Install Docker Compose plugin](https://docs.docker.com/compose/install/) (Ensure you can run `docker compose` without `sudo` by adding your user to the `docker` group).
+2. **Git**: Installed via package manager (e.g., `sudo apt install git`).
+3. **Python 3.8+** (For native execution): Installed via package manager (`sudo apt install python3 python3-venv python3-pip`).
 
 ---
 
@@ -46,81 +55,154 @@ The application is containerized using Docker and consists of the following serv
 ## 🚀 Installation & Setup
 
 ### 1. Clone the Repository
-
-Open your terminal (PowerShell, Command Prompt, or Git Bash) and run:
-
+Open your terminal (Command Prompt/PowerShell on Windows, Terminal on macOS/Linux) and run:
 ```bash
 git clone https://github.com/Ljamous/GeneticBot.git
 cd GeneticBot
 ```
 
-### 2. Verify Docker Configuration
+### Docker Setup (Recommended)
 
-Ensure your `docker-compose.yml` is present in the root directory. This file handles the orchestration of all services.
+This is the easiest way to run the entire stack on any Operating System (Windows, macOS, or Linux).
 
-### 3. Database Initialization
+1. **Verify Docker configuration:** Ensure `docker-compose.yml` is present in the root directory.
+2. **Launch all containers:**
+   ```bash
+   docker compose up -d --build
+   ```
+3. **Access the application:** Once successfully built and running, skip to the [Running the Application](#running-the-application) section.
 
-The project includes an automatic initialization script for the database.
+---
 
-- **Source:** `src/system/database/app_db.sql`
-- **Action:** When you run the project for the first time, this SQL file is automatically imported into the MySQL container to set up the schema and default tables.
+### Native Setup (XAMPP / Manual)
+
+If you prefer to run services natively (outside Docker) using Apache + MySQL (e.g. XAMPP):
+
+#### 1. Setup Project Directory
+Copy the `GeneticBot` project folder to your local web root:
+* **Windows (XAMPP)**: `C:\xampp\htdocs\GeneticBot`
+* **macOS (XAMPP)**: `/Applications/XAMPP/htdocs/GeneticBot`
+* **Linux (Apache)**: `/var/www/html/GeneticBot`
+
+#### 2. Create Python Virtual Environments & Install Dependencies
+
+##### 💻 Windows (PowerShell):
+```powershell
+# Medical Analysis
+cd src\Medical-Analysis-main
+python -m venv venv
+.\venv\Scripts\activate.ps1
+pip install -r requirements.txt
+deactivate
+
+# GeneticBot Chatbot
+cd ..\genetic_bot
+python -m venv env
+.\env\Scripts\activate.ps1
+pip install -r requirements.txt
+deactivate
+
+# Pedigree Service
+cd ..\pedigree
+python -m venv venv
+deactivate
+```
+
+##### 🍎 macOS / 🐧 Linux (Terminal):
+```bash
+# Medical Analysis
+cd src/Medical-Analysis-main
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+deactivate
+
+# GeneticBot Chatbot
+cd ../genetic_bot
+python3 -m venv env
+source env/bin/activate
+pip install -r requirements.txt
+deactivate
+
+# Pedigree Service
+cd ../pedigree
+python3 -m venv venv
+deactivate
+```
+
+#### 3. Database Creation & Credentials
+1. Open phpMyAdmin (`http://localhost/phpmyadmin`) or your MySQL client.
+2. Create a database named `app_db`.
+3. Create a user:
+   - **Username**: `db_user`
+   - **Password**: `db_password`
+4. Grant all privileges on `app_db` to `db_user`.
+5. Import `src/system/database/app_db.sql` into the newly created `app_db` database.
+
+#### 4. Configure Local Hosts
+To map the custom local domain `geneticbot.local` to localhost:
+
+* **Windows**: Edit `C:\Windows\System32\drivers\etc\hosts` (as Administrator) and add:
+  ```text
+  127.0.0.1 geneticbot.local
+  ```
+* **macOS / Linux**: Edit `/etc/hosts` (using `sudo nano /etc/hosts`) and add:
+  ```text
+  127.0.0.1 geneticbot.local
+  ```
 
 ---
 
 ## ▶️ Running the Application
 
-### 1. Start All Services
+### Under Docker (All OS)
+- **Start Services**: `docker compose up -d --build`
+- **Check Status**: `docker ps`
+- **Stop Services**: `docker compose down`
 
-To build and start the entire application stack, run:
+### Natively (Without Docker)
 
-```bash
-docker compose up -d --build
-```
+#### Windows
+1. Open XAMPP Control Panel and start **Apache** and **MySQL**.
+2. Launch the python services by running the startup batch script:
+   ```batch
+   cd src\system
+   start_servers.bat
+   ```
 
-- `--build`: Forces a rebuild of the images (useful if you've updated code).
-- `-d`: Runs containers in "detached" mode (in the background).
+#### macOS / Linux
+1. Start your local Apache & MySQL services.
+2. Run individual background services in separate terminal windows:
+   ```bash
+   # Start Medical Analysis API (Port 8000)
+   cd src/Medical-Analysis-main
+   source venv/bin/activate
+   uvicorn main:app --host 0.0.0.0 --port 8000
+   
+   # Start Pedigree Service (Port 8001)
+   cd ../pedigree
+   source venv/bin/activate
+   python3 -m http.server 8001
+   
+   # Start GeneticBot Streamlit Interface (Port 8501)
+   cd ../genetic_bot
+   source env/bin/activate
+   streamlit run ui_app.py --server.port 8501
+   ```
 
-> **Initial Startup:** The first run may take **10-15 minutes** as it needs to download large Docker images (MySQL, Python, PHP) and install dependencies. Please be patient.
-
-### 2. Check Service Status
-
-To verify that all containers are running correctly:
-
-```bash
-docker ps
-```
-
-- You should see 5 active containers listed (system, db, medical-analysis, pedigree, genetic-bot).
-
-### 3. Access the Application
-
-Once the services are running, access the application in your browser:
-
-- **Main Application:** [http://localhost](http://localhost)
-- **Signup Page:** [http://localhost/signup.php](http://localhost/signup.php)
-- **Medical Analysis API:** [http://localhost:8000/docs](http://localhost:8000/docs) (Swagger UI)
-- **GeneticBot:** [http://localhost:8501](http://localhost:8501)
+### 🌐 Access URLs (All Environments)
+- **Main Web Application**: [http://geneticbot.local](http://geneticbot.local) (or [http://localhost](http://localhost) if Docker/VHost is not mapped)
+- **FastAPI Documentation**: [http://localhost:8000/docs](http://localhost:8000/docs)
+- **GeneticBot chatbot**: [http://localhost:8501](http://localhost:8501)
 
 ---
 
-## 🛑 Stopping the Application
-
-To stop the containers:
-
-```bash
-docker compose stop
-```
-
-To stop and **remove** containers (preserves database data):
-
+## 🛑 Stopping the Application (Docker)
+To stop and clean up containers:
 ```bash
 docker compose down
 ```
-
-To stop, remove containers, and **delete database data** (Fresh Start):
-
-> **Warning:** This deletes all registered users and data!
-
+To delete database volumes for a clean state:
 ```bash
 docker compose down -v
 ```
@@ -129,42 +211,15 @@ docker compose down -v
 
 ## 🔧 Troubleshooting
 
+### "Not Found" or 404 Errors on Pages (Linux/Docker)
+- **Cause**: Linux is case-sensitive regarding filenames, unlike Windows.
+- **Fix**: Ensure links and redirects match file case exactly (e.g., `signup.php` and not `Signup.php`).
+
 ### Database Connection Error
-
-If the PHP app cannot connect to the database:
-
-1.  Ensure the `db` container is running: `docker ps`.
-2.  If you recently changed schemas, try resetting the volume:
-    ```bash
-    docker compose down -v
-    docker compose up -d --build
-    ```
-
-### "Not Found" or 404 Errors on Pages
-
-- **Cause:** PHP filenames are **case-sensitive** in the Docker container (Linux environment).
-- **Fix:** Ensure your code links point to the exact filename (e.g., `signup.php`, not `Signup.php`).
-
-### Docker Build Stuck / Slow
-
-- **Cause:** Slow internet connection causing large image downloads (MySQL/Python) to hang.
-- **Fix:** You can try pulling images individually:
-  ```bash
-  docker pull mysql:8.0
-  docker pull python:3.11-slim
-  ```
-  Or start only the core services first:
-  ```bash
-  docker compose up -d --build db system
-  ```
-
-### NCCN Test Error (NoneType)
-
-- **Cause:** This usually happens if you try to run the NCCN test without uploading a pedigree or clinical history first.
-- **Fix:** Ensure you have completed the previous steps in the workflow (Clinical History upload) before initiating the NCCN test. (Note: A code fix was applied in v2.0 to prevent the crash, showing a graceful error instead).
+1. Verify database service is running (`docker ps` or XAMPP Panel).
+2. Ensure your credentials in `src/Medical-Analysis-main/.env` match `db_user` and `db_password`.
 
 ---
 
 ## 📞 Support
-
-For issues related to the codebase or deployment, please check the GitHub repository issues tracker.
+For issues related to the codebase or deployment, please open an issue in the GitHub repository issues tracker.
