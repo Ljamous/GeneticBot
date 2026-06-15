@@ -1,0 +1,10 @@
+{"bill_no": 1, 
+"bill_date": "7/7/2023", 
+"vendor": "Xyz", 
+"category": "Travel", 
+"currency": "JD" ,
+"items": [
+    {"description": "Abc", "Qty": 1, "price": 2.3, "tax": 1.1},
+    {"description": "Xyz", "Qty": 2, "price": 3.5, "tax": 1.4},
+    ]
+}

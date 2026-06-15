@@ -1,0 +1,27 @@
+# Ignore virtual environments
+venv/
+env/
+ENV/
+
+# Ignore Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ignore IDE files
+.vscode/
+.idea/
+*.swp
+
+# Ignore git
+.git/
+.gitignore
+
+# Ignore node_modules if any
+node_modules/
+
+# Ignore logs
+*.log
+
+# Ignore documentation
+*.md

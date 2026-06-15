@@ -1,0 +1,21 @@
+Evaluation Rules for NCCN Genetic Testing Eligibility (BRCA1, BRCA2, CDH1, PALB2, PTEN, STK11, TP53):
+
+A patient is considered **eligible** for NCCN genetic testing if they meet **any one or more** of the following criteria:
+
+1. Personal history of breast cancer diagnosed at age ≤ 50 years.
+2. Diagnosed with triple-negative breast cancer at any age.
+3. Multiple primary breast cancers (synchronous or metachronous) at any age.
+4. Lobular breast cancer at any age AND personal or family history of diffuse gastric cancer.
+5. Male breast cancer at any age.
+6. Ashkenazi Jewish ancestry at any age.
+7. One or more close blood relatives with breast cancer diagnosed at age ≤ 50 years.
+8. One or more close blood relatives with male breast cancer at any age.
+9. One or more close blood relatives with ovarian cancer at any age.
+10. One or more close blood relatives with pancreatic cancer at any age.
+11. One or more close blood relatives with prostate cancer that is metastatic, high-risk, or very-high-risk.
+12. Three or more diagnoses of breast and/or prostate cancer (any grade) on the same side of the family, including the patient.
+
+**Important Instructions for Assessment**:
+- If **any** criterion is met, set `eligible_for_NCCN` to `true` and list **all** matching criteria explicitly in the output.
+- If **no** criteria are matched, set `eligible_for_NCCN` to `false` and explain **why the patient is not eligible**.
+- All eligibility decisions must be backed by clear evidence from the pathology report and/or pedigree analysis.

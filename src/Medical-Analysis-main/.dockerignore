@@ -1,0 +1,39 @@
+# Ignore virtual environments
+venv/
+env/
+ENV/
+
+# Ignore Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Ignore IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Ignore git
+.git/
+.gitignore
+
+# Ignore environment files (will be provided via docker-compose)
+.env
+.env.*
+
+# Ignore logs
+*.log
+logs/
+
+# Ignore test files
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Ignore documentation
+*.md
+docs/

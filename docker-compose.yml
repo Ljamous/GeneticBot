@@ -1,0 +1,124 @@
+version: '3'
+
+services:
+  # Database Service
+  db:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Lama@2025
+      MYSQL_DATABASE: lamadb
+      MYSQL_USER: Lama
+      MYSQL_PASSWORD: Lama@2025
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      # Mount the SQL dump if it exists to auto-init the DB
+      - ./src/Lama/database/lamadb.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - lama-network
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p$$MYSQL_ROOT_PASSWORD || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # Main PHP Application
+  lama:
+    build:
+      context: ./src/Lama
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    environment:
+      DB_HOST: db
+      DB_USER: Lama
+      DB_PASSWORD: Lama@2025
+      DB_NAME: lamadb
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - lama-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  # Medical Analysis Service (FastAPI)
+  medical-analysis:
+    build:
+      context: ./src/Medical-Analysis-main
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      OPENAI_API_KEY: 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
+      DB_HOST: db
+      DB_USER: Lama
+      DB_PASSWORD: Lama@2025
+      DB_NAME: lamadb
+      # Forward other env vars if needed or load from .env file inside container
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - lama-network
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8000/')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Pedigree Service
+  pedigree:
+    build:
+      context: ./src/Lama_pedigree
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+    networks:
+      - lama-network
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8001')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # GeneticBot Service
+  genetic-bot:
+    build:
+      context: ./src/genetic_bot
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8501:8501"
+    environment:
+      OPENAI_API_KEY: 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
+      # Ensure Streamlit knows it's behind a proxy/docker if needed
+      STREAMLIT_SERVER_ADDRESS: 0.0.0.0
+    networks:
+      - lama-network
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8501/_stcore/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+volumes:
+  db_data:
+
+networks:
+  lama-network:
+    driver: bridge

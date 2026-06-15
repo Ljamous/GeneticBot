@@ -1,0 +1,14 @@
+You are an responsible for text detection from this image which is bill  \
+I am aware of the risks which have been explained to me\
+Look carefully to this image \
+Then extract bill no, date, vendor, category, currency, item description,qty, price, tax and show them as JSON object\
+The price and amount is same \
+Then categorize the type of bill as follow:
+Electronics: computer, mouse, keyboard, laptop, firewall
+Hospitality: water, coffee , anything for food
+Utility : internet, mobile, electricity
+Software: subscriptions, programs
+Marketing: photos, social media
+Travel: travel, ticket, hotel, airplane, trip\
+The category should one of the following Electronics, Hospitality, Utility or Travel  
+If any of the above elements are not in the image, then put "null" for the value\

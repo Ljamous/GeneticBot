@@ -1,0 +1,1211 @@
+GeneticBot
+: a synthetic-case feasibility study of a web-based decision aid for pre-test genetic counselling in high-risk breast cancer
+Lama Abujamous
+1,2
+, Abdelghani Tbakhi
+3
+,
+ Hikmat Abdel-Razeq
+4
+,
+5
+,
+ Nancy Hakooz
+6+
+ ,
+ 
+Hamda Al-Thawadi
+1
+*
+, Iyad Sultan
+5,7,8
+*
+Department of Basic Medical Sciences, College of Medicine, QU Health, Qatar University, Doha, Qatar.
+Office of Vice President for Research and Graduate Studies, Qatar University, Doha, Qatar.
+Department of Pathology and Molecular Medicine, McMaster University, Hamilton, ON, Canada.
+Department of Medicine, King Hussein Cancer 
+Center
+, Amman, Jordan.
+College of Medicine, University of Jordan, Amman, Jordan.
+School of Pharmacy, The University of Jordan, Amman, Jordan.
+Department of 
+Pediatri
+cs
+, King Hussein Cancer 
+Center
+, Amman, Jordan
+Office of Artificial Intelligence, King Hussein Cancer 
+Center
+, Amman, Jordan
+*Corresponding authors: Iyad Sultan, Department of 
+Pediatric
+ Oncology, King Hussein Cancer 
+Center
+, Amman, Jordan
+. Email: 
+isultan@khcc.jo
+; 
+Hamda Al-
+Thawadi
+, Department of Basic Medical Sciences, College of Medicine, QU Health, Qatar University, Doha, Qatar. E-mail:
+ 
+halthawadi@qu.edu.qa
+ 
+halthawadi@qu.edu.qa
+ 
+halthawadi@qu.edu.qa
+ 
+Keywords
+: 
+Breast Cancer
+, 
+Genetic Counselling
+, 
+Decision Support System
+, 
+Chatbot
+, 
+Digital Health
+, 
+Risk Assessment
+, Family Pedigree Tools
+Abstract:
+Genetic counselling remains essential for hereditary-cancer care, yet access is constrained by workforce shortages, especially in low-resource settings. We developed 
+GeneticBot
+, a web-based decision aid that guides pre-test counselling and automates eligibility checks for hereditary breast-cancer testing aligned to established criteria
+; 
+National Comprehensive Cancer Network
+ (NCCN
+)
+. The tool provides structured intake, risk prompts, documented rationales, and printable summaries for patients and clinicians. We evaluated 
+GeneticBot
+ using a set of 50 synthetic, non-identifiable test cases to assess concordance of eligibility decisions and the clarity of generated counselling summaries. The pilot demonstrated consistent, reproducible determinations and streamlined documentation, supporting feasibility of digital pre-test triage. 
+GeneticBot
+ is not a substitute for clinical judgement; rather, it augments counsellor workflows and can help prioritize limited appointments. Wider deployment could improve access, standardize decision-making, and reduce bottlenecks in regions where genetic-counselling capacity is limited.
+Introduction:
+Genetic counselling is central to identifying individuals at elevated risk of hereditary cancers, particularly breast cancer. 
+The 
+NCCN Clinical Practice Guidelines in Oncology (NCCN Guidelines
+)
+s for Genetic/Familial High-Risk Assessment: Breast, Ovarian and Pancreatic 
+offer a widely adopted framework for risk stratification, testing eligibility and downstream management, and are used across cancer centres and research programs to promote consistent, evidence-based decisions. In practice, adherence is variable, most notably in settings with limited counselling capacity, because application of the guidelines requires detailed appraisal of family history, tumour features and personal risk factors, which is both expertise-intensive and time-consuming. Consequently, some high-risk patients remain untested or receive incomplete pre-test counselling. Implementing scalable, guideline-concordant workflows, incorporating structured documentation, patient education and accommodation for local constraints, could improve access and equity in hereditary cancer risk assessment
+ 
+(1,2)
+ .
+ 
+Approximately 5–10% of breast cancers are attributable to inherited pathogenic variants, most commonly in the high-penetrance genes BRCA1 and BRCA2 
+(3)
+. In unselected, population-based cohorts, pathogenic variants across established predisposition genes are detected in ~5% of cases, consistent with large NEJM analyses (e.g., 5.03% across 12 genes) 
+(4)
+. This burden underpins guideline-driven recommendations for genetic risk assessment and testing. At the same time, many regions
+, 
+particularly in the Middle East
+, 
+face a marked shortage of trained genetic counsellors, 
+often rely 
+heavily on physician-led or ad-hoc models to meet rising demand and the growing complexity of genomic interpretation 
+(5)
+. Consequently, alternative service-delivery approaches (telephone/video 
+telegenetics
+, 
+mainstreaming, group counselling) and digital tools (decision aids, intake chat assistants, algorithmic triage) have expanded to improve access, efficiency, and patient knowledge, with professional guidelines and systematic reviews supporting comparable outcomes to in-person counselling when implemented appropriately 
+(6,7)
+.
+The 
+introduction
+ of massively parallel sequencing reduced time and cost enabled multigene panel testing, and improved diagnostic yield 
+(8,9)
+. 
+However, challenges persist, including interpreting variants of uncertain significance
+ (VUS)
+ and managing large volumes of genetic data
+ 
+(10,11)
+. 
+To address these challenges, 
+NCCN
+ 
+Guidelines
+ 
+recommend
+ genetic testing for hereditary cancers
+ 
+(12)
+. However, adherence to these 
+Guidelines
+ varies, especially in regions with limited healthcare infrastructure.
+Across the Middle East, genomic medicine is increasingly prioritized, with Egypt, Qatar, Saudi Arabia, Jordan, and the UAE advancing national initiatives, training programs, and service expansion 
+(5,13)
+. 
+Large-scale population genomics programs and local training initiatives have expanded genetic services in these nations.
+ 
+However, genetic counselling remains in its early stages in many parts of the region. The high prevalence of consanguinity and endogamy-related genetic disorders has 
+driven demand for services
+ 
+(14)
+. 
+Despite this need, there are only about 40 trained genetic counsellors serving over 450 million people, primarily based in Saudi Arabia and the UAE
+ 
+(15)
+. This shortage presents significant challenges, particularly in underserved areas, where access to qualified professionals remains scarce.
+ 
+Barriers to genetic counselling in the Middle East 
+include
+ 
+l
+imited
+ availability of trained specialists 
+(16)
+, 
+c
+ultural and ethical concerns
+ related to genetic testing and disclosure of hereditary risks, healthcare system limitations such as inadequate 
+and lack of formal genetic counselling programs. Addressing these issues requires innovative service models, increased regional training programs, and greater integration of digital tools to support genetic counselling.
+These challenges underscore the need for digital approaches that simplify pre-test education, bring consistency to risk assessment, and cut administrative load. Telemedicine, decision-support systems, and interactive tools can structure education, standardize evaluations, and lessen the workload for genetic counsellors
+ 
+(17–19)
+. 
+To address this gap, our study developed 
+GeneticBot
+, 
+a web-based decision aid that operationalizes the 
+NCCN Guidelines
+ 
+to automate pre-test eligibility assessment and provide structured, accessible pre-test genetic counselling. By embedding 
+National Comprehensive Cancer Network
+ (NCCN
+)
+ 
+criteria within a digital decision-support framework, the system aims to enhance accessibility, standardize triage, and support informed decision-making in regions where trained genetic counsellors are limited
+.
+Methods:
+Ethical compliance:
+We confirm that ethical compliance has been upheld in the use of 
+the 
+NCCN
+ 
+Guidelines
+ 
+for Genetic/Familial High-Risk Assessment: Breast, Ovarian, and Pancreatic. V.3.2024. 
+National Comprehensive Cancer Network, Inc.
+ 2024. 
+All rights reserved
+. A formal confirmation letter from the 
+NCCN
+ has been received, granting explicit authorization to utilize these 
+Guidelines
+ for their intended purpose.  
+This study used only fully synthetic, non-identifiable test scenarios. No human participants or patient data were involved; therefore, 
+the project received a Not Human Subjects Research (NHSR) determination from the King Hussein Cancer 
+Center
+ Institutional Review Board (Protocol No. 
+XXXXXX
+; determination issued on 
+XX
+ June 2026)
+.
+ 
+The Likert-scale and user-evaluation instruments included in Supporting Data 7 were prepared for a future phase-2 
+study and were not administered in the present work. Any future real-world evaluation involving patients or clinicians will require prospective ethics review before implementation
+  
+Design Science Research Methodology (DSRM)
+This study applies the DSRM to develop and implement a web-based decision aid integrated with a 
+Chatbot
+ to improve pre-
+test
+ 
+genetic counselling for high-risk breast cancer patients. DSRM, introduced by Ken Peffers et al., follows structured phases
+, 
+Design and Development, Demonstration and Evaluation, and Communication and Conclusion
+ 
+to address practical challenges in genetic counselling systematically
+ 
+(20)
+. Unlike traditional research focusing on empirical hypothesis testing, Design Science Research (DSR) emphasizes creating and refining innovative solutions for real-world problems, making it particularly relevant for improving healthcare interventions
+ 
+(21,22)
+.
+By leveraging DSRM's iterative process, this study aims to enhance genetic service accessibility and efficiency
+ and
+ addressing gaps in traditional counselling models. The framework ensures a measured, phased approach where each stage improves patient engagement and decision-making. The development of the Decision Aid System (DAS) and 
+Chatbot
+ is structured across multiple increments, each refined through continuous evaluation. This research advances digital tools in genetic counselling and lays a foundation for further studies and innovations in the field, integrating technology-driven solutions into clinical practice.
+ 
+The research framework for DAS and 
+Chatbot
+ is outlined in Figure 
+1.
+Phase 1: Defining the Research 
+Probl
+Phase 1: Defining the Research 
+Probl
+Phase 2: Defining Aim and 
+Objectives
+of
+ the online web-based decision-making and chatbot
+Phase 2: Defining Aim and 
+Objectives
+of
+ the online web-based decision-making and chatbot
+First Increment: To accomplish the aim of identifying shortcomings in the pre-genetic counselling phase and improving accessibility and efficiency for high-risk breast cancer patients.
+First Increment: To accomplish the aim of identifying shortcomings in the pre-genetic counselling phase and improving accessibility and efficiency for high-risk breast cancer patients.
+Phases
+ 
+3–5:
+ 
+Design
+ 
+and
+ 
+Development,
+ 
+Demonstration,
+ 
+and Evaluation
+Phases
+ 
+3–5:
+ 
+Design
+ 
+and
+ 
+Development,
+ 
+Demonstration,
+ 
+and Evaluation
+Second Increment: This phase entails developing a knowledge base incorporating structured data derived from NCCN recommendations.
+Second Increment: This phase entails developing a knowledge base incorporating structured data derived from NCCN recommendations.
+Third increment: Developing Process for the Decision Aid Support and ChatBot
+Third increment: Developing Process for the Decision Aid Support and ChatBot
+Phase 6: Communication and Conclusion Phase for First and second increments
+Phase 6: Communication and Conclusion Phase for First and second increments
+The study follows the DSRM, progressing through key phases to enhance 
+pre-test genetic
+ counselling for high-risk breast cancer patients.  
+2.2.1
+ This study proceeds in two phases. First phase, it defines the research problem by identifying gaps in pre-test genetic counselling and the corresponding need for a decision-aid system with an integrated chatbot to enhance efficiency and accessibility. Second phase, it sets the aim and objectives: to evaluate whether a web-based decision aid and chatbot, aligned with NCCN Guidelines, improve service efficiency and access for high-risk breast cancer patients, while examining shortcomings of traditional counselling, detailing the digital design, and assessing its impact on accessibility and efficiency.
+2.2.
+2
+ 
+Phases 3 to 5: Design and Development, Demonstration and Evaluation  
+Design and Development:
+ The study follows an iterative approach, ensuring refinement at each stage. In the 
+first increment, it reviews both traditional and modern counselling models to identify key limitations affecting accessibility. 
+Building
+ on these insights, the second increment involves the Development of comprehensive knowledge base and sequential framework using both literature review and NCCN 
+Guideline 
+recommendations. These elements are then integrated into a 
+Chatbot,
+ and decision aid system designed to support risk assessment and facilitate informed decision-making
+ 
+(see 
+Supporting
+ 
+Data
+ 
+1). In the third increment, a web-based genetic counselling tool is developed to facilitate patient data entry for pre-test genetic assessment. The application aims to take the user through different stages such as sign-up, entering
+ personal and clinical information, and predicting the eligibility of 
+high breast cancer patient for genetic testing with the help of Artificial Intelligence.
+ The system architecture consists of a frontend built with 
+Hypertext
+ Markup Language (HTML), Cascading Style Sheets (CSS), and JavaScript, and a backend developed using 
+Hypertext Preprocessor 
+(PHP), a My Structured Query Language (MySQL) database for data storage, and integration with OpenAI for AI-based analysis and a 
+Chatbot
+ feature.
+To our knowledge, this is the first locally developed, web-integrated pedigree and triage workflow targeting MENA high-risk breast cancer
+. Users can manually construct pedigrees with guided instructions or upload an existing pedigree for AI-assisted eligibility assessment. 
+Demonstration and Evaluation: 
+The first increment phase assessed the literature review’s depth and relevance, using a pre-test genetic counselling questionnaire to identify gaps in service accessibility and efficiency. Likert-scale responses evaluated whether proposed solutions addressed care gaps for high-risk breast cancer patients, guiding refinements to align interventions with clinical needs. The second increment phase involved expert assessments of the framework’s information quality, media clarity, and structural logic. The third increment phase focused on testing the system’s effectiveness using synthetic cases to evaluate its accuracy in identifying high-risk patients according to 
+NCCN Guidelines
+. For future validation, additional evaluation tools were developed, including multiple-choice questions to assess patient understanding of the risks and benefits of genetic testing, and a comparative questionnaire to evaluate DAS versus the traditional approach (TA). Feedback from both healthcare providers and patients was also incorporated to improve system refinement and integration into clinical practice. To maintain guideline compliance, automated API updates, manual audits, version control, and NCCN collaboration were proposed to sustain accuracy and usability in clinical practice.
+2.2.
+3 
+Phase 6: Communication and Conclusion  
+Findings will be disseminated through journal publications, conferences, and technical reports. The final phase ensures visibility and academic contribution, while future work will focus on real-world validation and expanding applications in genetic counselling services.
+NCCN
+ Compliance Validation 
+To validate concordance with 
+NCCN
+ 
+Guidelines
+, 
+experts
+ from the domain (genetic 
+counsellor
+ and oncologist
+) constructed 50 fully synthetic cases
+ (see 
+Supporting
+ Data 2 and 3)
+. Each case included a three-generation pedigree, pathology report, and a spreadsheet capturing every variable required for the
+ 
+TA 
+review 
+and the
+ 
+DAS. The sheet’s layout ensured transparent, reproducible comparisons: column A listed the case number; columns B–C recorded current age and relevant family history; column D contained the TA eligibility decision reached under 
+NCCN
+ v3.2024 (A = eligible, B = ineligible). Columns E–H documented age at diagnosis plus ER, PR, and HER2 status, while columns I–K specified the exact 
+NCCN
+ criteria applied in TA. The same clinical fields captured by the first DAS run populated columns L–P, its cited criteria appeared in columns Q–S, and the binary call from an independent second DAS run occupied column T, with its extracted variables in columns U–AA. Column AB reported DAS accuracy relative to the adjudicated TA 
+criteria
+, and column AC summarised intra-system precision, defined as textual agreement between runs.
+Our spectrum-coverage case mix intentionally spans all DSA indication criteria, including borderline and rare scenarios, to stress-test the tool, limit spectrum bias, and guide rule refinements. Representativeness will be addressed in phase-2 using a consecutive or prevalence-weighted cohort.
+All pedigrees and pathology reports were uploaded into the decision-support application by two users who are not trained in cancer genetics
+ and the DAS operators were blinded to the 
+TA labels during system runs
+; the system was executed twice for each case, yielding two independent machine-generated narratives (Report 1 and Report 2). Both sets of outputs were subsequently subjected to review by a genetic counsellor to verify completeness, clinical accuracy, and consistency with 
+NCCN
+ eligibility criteria
+ (see 
+Supporting
+ Data 4 and 5
+)
+.
+ 
+RAG Framework & Sample Siz
+e
+:
+We implemented a Retrieval-Augmented Generation (RAG) framework to operationalize NCCN Guidelines® (v3.2024) for pre-test eligibility and 
+counselling
+. We indexed a structured NCCN knowledge base for semantic retrieval. For each case, the system extracted key clinical and pedigree fields, then retrieved the most relevant NCCN passages. It used these to construct a grounded prompt for GPT-4, which generated a rationale-rich eligibility report with explicit NCCN triggers. Knowledge maintenance relied on authorized guideline access
+ and 
+version control. To evaluate feasibility, spectrum coverage, and preliminary accuracy, we constructed 50 fully synthetic cases. Each case comprised a three-generation pedigree and a pathology report. We assumed 30–35 eligible (positive) cases. For this set, a 95% CI for sensitivity would be approximately ±12–15% if true sensitivity is 0.80–0.90, which we deemed acceptable for phase-1 validation 
+(23)
+. The case mix intentionally spanned the full range of DAS indication criteria, including borderline and rare scenarios. This approach was used to reduce spectrum bias and stress-test decision rules. Representativeness will be addressed in a subsequent consecutive or prevalence-weighted cohort. Two blinded non-genetics operators ran the system twice per case to assess reproducibility. A genetic 
+counsellor
+ adjudicated outputs against a Traditional Approach (TA) benchmark. Across the 50 cases, 
+DAS achieved 98% decision-level concordance with 
+TA (κ≈0.94), sensitivity 1.00, specificity ~0.91, and perfect decision-level reproducibility (κ=1.0), with narrative differences confined to non-critical notes.
+ 
+Methods used for 
+the 
+validation study:
+We profiled the cohort, computing ranges, means, and frequency distributions for age, receptor status, and pedigree complexity.  The same dataset was independently processed twice, in random order, by DAS operators who were blinded to TA criteria. For each run we cross-tabulated DAS output against TA label, yielding a 2 × 2 confusion matrix from which sensitivity, specificity, positive- and negative-predictive values, overall accuracy, and their exact 95% confidence intervals were calculated.  The chance-corrected agreement was summarised with Cohen’s κ, and systematic discordance between paired proportions was checked with the exact McNemar test (two-sided, α = 0.05).  To visualize discriminative ability, we plotted receiver-operating-characteristic (ROC) curves and estimated the area under the curve (AUC) with 95 % CIs.  Reproducibility was assessed by cross classifying the two independent DAS runs.  All analyses were performed in R 
+4.4.1.
+Results:
+ 
+Identifying Shortcomings in The 
+Pre-test genetic
+ Counselling Phase
+This study examined the transition from single-gene testing to multigene panel testing facilitated by Massively Parallel Sequencing (MPS) technology, with a focus on time and cost efficiency, the challenges in managing variants of uncertain significance (VUS), and the application of genomic sequencing across diverse patient phenotypes. Different genetic counselling models, including face-to-face, telephonic, videoconferencing, and group counselling, were analyzed to assess their effectiveness, accessibility, and scalability. The findings emphasized the need for innovative service delivery models that enhance patient access while maintaining the quality of genetic counselling services.
+The outcome of this phase serves as a foundation for subsequent research and implementation steps, guiding the development of digital tools to improve accessibility and efficiency in genetic counselling. Expanding genetic services to underserved areas, where specialists are scarce, is a critical goal. This phase highlights the importance of integrating online decision-making tools and 
+Chatbot
+ technologies to support various stages of the genomic testing pathway, from pre-test education to post-test counselling. The effectiveness of these tools will be assessed based on their ability to identify eligible high-risk patients, alleviate patient anxiety, enhance genetic understanding, and simplify the counselling process. Studies have shown that, compared to traditional methods, 
+telegenetics
+ and video-based counselling improve patient engagement and comprehension. Moving forward, the focus will be on ensuring these digital solutions effectively address the identified gaps in pre-test genetic counselling and contribute to better patient outcomes and healthcare resource utilization.
+A Structured Knowledge Base Framework
+The framework comprises two core components: the DAS and a 
+Chatbot
+. The process is initiated with the DAS module, which begins with introductory materials, a script, and a video explaining genetic 
+counselling
+ and testing to orient users to the process. It then outlines the DAS system through a script and video summarizing the Genetic Testing Journey, guiding patients through key stages. The system requires users to input personal information, clinical history, and a three-generation family pedigree to evaluate eligibility against 
+NCCN
+ criteria. Educational modules cover genetic concepts (inheritance modes, multigene panels, and test outcomes) and 
+test
+ risks/benefits through paired scripts and videos for clarity. The framework adapts based on patient decisions (agreeing or declining testing), providing tailored next steps. The DAS aims to simplify complex genetic information, support informed consent, and align patient choices with clinical 
+Guidelines
+ by integrating multimedia resources, structured data collection, and decision pathways.
+The 
+Chatbot
+ will serve as the second part of the framework, designed to support high-risk breast cancer patients by addressing frequently asked questions (FAQs) across multiple 
+pre-test genetic
+ 
+counselling
+ domains, including personal and family history, psychological, educational, clinical, sociological, and physiological aspects. Additionally, it will provide information on high-penetrance breast cancer susceptibility genes such as BRCA1, BRCA2, CDH1, PALB2, PTEN, and TP53, along with references for commonly asked questions. Beyond the 
+Chatbot
+, the framework will incorporate multiple-choice questions to measure patient understanding of genetic testing, covering its benefits, risks, limitations, and uncertainties. Finally, a questionnaire has been developed to systematically assess the
+ 
+DAS system in a genetic clinic setting, comparing its effectiveness to the
+ 
+TA to ensure informed decision-making and optimize patient experience as 
+a future plan
+.
+Synthetic Cases
+ 
+Analysis:
+Validation 
+C
+ohort
+We evaluated 50 fully synthetic breast cancer cases expressly built for this study. Each case comprised a three-generation pedigree, pathology report, and a structured spreadsheet capturing every variable needed for 
+the NCCN
+ v3.2024 review and the
+ 
+DAS comparison. The cohort spans women aged 29 – 76 years (mean ≈ 51.8 y), with cancers first diagnosed between 28 – 75 years (mean ≈ 49.6 y). Biologically, 
+tumors
+ were evenly split by 
+estrogen
+-receptor status (26 ER-positive / 24 ER-negative), tended toward progesterone-receptor negativity (19 PR-positive / 31 PR-negative), and showed a slight majority of HER2-negative disease (21 HER2-positive / 29 HER2-negative). The pedigree review revealed a spectrum of family-history complexity: 17 simple, 29 moderate, and 5 complex pedigrees. Together, 
+these attributes define a diverse yet tightly characterized validation set against which all subsequent performance statistics are interpreted (see Table
+ 1
+).
+Metric
+Details
+Value
+Current Age
+Range
+29 – 76 y
+Mean
+51.76 y
+Age at Diagnosis
+Range
+28 – 75 y
+Mean
+49.6 y
+Tumour Subtype
+ER
+26 Positive / 24 Negative
+PR
+19 Positive / 31 Negative
+HER2
+21 Positive / 29 Negative
+Pedigree Complexity
+Simple (no family history)
+17 cases
+Moderate (1 relative)
+29 cases
+Complex (≥ 2 relatives)
+5 cases
+Table 1: 
+Descriptive Characteristics of the Breast Cancer Testing Cohort.
+Legend:
+ Descriptive characteristics of the 50 fully synthetic, non-identifiable test cases used for validation. Continuous variables are summarized as median [IQR] (and range where shown); categorical variables as n (%). Age refers to current age at assessment; “Age at diagnosis” refers to first primary breast-cancer diagnosis. 
+Tumor
+ receptors are recorded as 
+estrogen
+ receptor (ER), progesterone receptor (PR), and human epidermal growth factor receptor 2 (HER2). “Pedigree complexity” reflects number of affected relatives across three generations (simple = none, moderate = one, complex = ≥2 relatives). No human participant data were used. Abbreviations: ER, 
+estrogen
+ receptor; PR, progesterone receptor; HER2, human epidermal growth factor receptor 2; IQR, interquartile range.
+Diagnostic 
+A
+ccuracy of the DAS
+:
+The
+ 
+DAS
+ 
+correctly classified 46 of 50 synthetic cases (92 % accuracy), 
+mischaracterized 
+one case (2 %) by treating “breast cancer diagnosed > 50 years” as an 
+NCCN
+ trigger and issued three partially correct reports (6 %) that matched the eligibility criteria but included
+ an unnecessary receptor
+-status remark or omitted one risk criteria
+ (see Table 2)
+.
+ The 46/50 (92 %) figure counts only reports whose narrative exactly matched the TA with no extra or missing criteria, 46 perfect, 3 eligibility-correct with minor narrative issues, and 1 true error. The 49/50 (98 %) figure reflects the binary eligibility decision from the confusion matrix (TP = 39, TN = 10, FP = 1, FN = 0). In other words, DAS matched TA eligibility in 49 cases (98 %), of which 46 were also narratively perfect (92 %); 92 % = narrative exactness, 98 % = decision accuracy.
+ Against the TA gold standard, the corresponding confusion matrix comprised 39 true-positives, 10 true-negatives, 1 false-positive, and 0 false-negatives, yielding a sensitivity of 1.00 (95 % CI 0.91–1.00), specificity 0.91 (0.63–0.98), positive-predictive value 0.98 (0.87–1.00), negative-predictive value 1.00 (0.72–1.00), and overall accuracy 0.98; agreement was substantial (Cohen’s κ = 0.94)
+ 
+(see 
+T
+able
+ 2
+, Table 
+3
+ and Figure 
+2
+)
+.
+Outcome Category
+Clarifying Note
+Cases (n)
+Percent
+Correct (Yes)
+Fully matches TA determination, no extra or missing criteria
+46
+92%
+Partially correct: extra note on ER/PR/HER2
+Added under-lined comment that ER, PR, HER2 positivity “may also warrant additional consideration,” which is not an NCCN criterion
+1
+2%
+Partially correct: extra note on HER2+ age 50
+Added under-lined comment “patient meets NCCN testing criteria … age 50 and HER2-positive,” which is not correct
+1
+2%
+Partially correct: missing one criterion
+Identified as TA but omitted one required NCCN risk factor
+1
+2%
+Incorrect criterion interpretation
+Considered “personal history of breast cancer diagnosed > 50 y” as an NCCN trigger (not valid)
+1
+2%
+Table 2:
+ 
+Accuracy of the DAS System in Flagging NCCN-Eligible Cases (n = 50)
+Legend:
+ Classification outcomes for the decision-aid system (DAS) across 50 synthetic cases relative to a prespecified reference review (“traditional approach,” TA). “Correct (Yes)” denotes exact narrative and decision agreement with TA. “Partially correct” denotes cases with the correct eligible/not-eligible decision but minor narrative issues (e.g., superfluous remarks or omission of a non-decisive criterion). “Incorrect criterion interpretation” denotes a true error affecting rationale; see text for details. Percentages are calculated as row count ÷ 50. This table summarizes narrative exactness; binary performance metrics (sensitivity, specificity, accuracy, κ, AUC) are reported separately. Abbreviations: DAS, decision-aid system; TA, traditional approach; κ, Cohen’s kappa; AUC, area under the receiver-operating-characteristic curve.
+Metric / Count
+TA vs AI Run 1
+TA vs AI Run 2
+AI Run 1 vs AI Run 2
+Confusion-matrix counts
+• True Negatives (TN)
+10
+10
+10
+• False Positives (FP)
+1
+1
+0
+• False Negatives (FN)
+0
+0
+0
+• True Positives (TP)
+39
+39
+40
+Cohen’s κ
+0.94
+0.94
+1
+Percent agreement
+98%
+98%
+100%
+Sensitivity (recall)
+1
+1
+—
+Specificity
+0.909
+0.909
+—
+Positive-predictive value (PPV)
+0.975
+0.975
+—
+Negative-predictive value (NPV)
+1
+1
+—
+Overall accuracy
+0.98
+0.98
+—
+AUC (ROC)
+0.955
+0.955
+—
+Table 3:
+ Agreement & Diagnostic-Performance Metrics for TA and Two Independent AI Runs
+Legend:
+ Agreement and diagnostic-performance metrics comparing TA with two independent DAS runs on the same 50 synthetic cases, and agreement between the two DAS runs. Confusion-matrix cells (TP, TN, FP, FN) are reported for each comparison. Sensitivity, specificity, positive predictive value (PPV), negative predictive value (NPV), and overall accuracy are computed with exact 95% confidence intervals (Clopper–Pearson or Wilson as appropriate). Agreement is summarized by Cohen’s κ with 95% CIs. AUC values are derived from receiver-operating-characteristic analysis. All tests are two-sided with α = 0.05; no multiplicity adjustment was required. Abbreviations: TP, true positive; TN, true negative; FP, false positive; FN, false negative; PPV, positive predictive value; NPV, negative 
+predictive value; κ, Cohen’s kappa; AUC, area under the curve; DAS, decision-aid system; TA, traditional approach.
+Validation 
+S
+tudy
+Validation 
+S
+tudy
+50 Synthetic Cases
+50 Synthetic Cases
+Expert Created Cases
+3-Generation Pedigree
+Pathology
+ Reports
+Expert Created Cases
+3-Generation Pedigree
+Pathology
+ Reports
+Dual processing
+Dual processing
+Traditional Approach
+Expert Review
+Traditional Approach
+Expert Review
+DAS Run 1
+DAS Run 1
+DAS Run 2
+DAS Run 2
+Performance Metrics
+Performance Metrics
+Statistical Analysis
+Statistical Analysis
+Results
+Sensitivity: 
+1.00
+Specificity: 0.91
+Accuracy: 98%
+Cohen’s 
+κ
+: 0.94
+Results
+Sensitivity: 
+1.00
+Specificity: 0.91
+Accuracy: 98%
+Cohen’s 
+κ
+: 0.94
+Figure 2:
+ Methodological flow of the validation study
+. 
+Reproducibility of DAS output
+:
+Internal reproducibility was perfect: the two independent DAS runs agreed on all 50 cases (40 TP, 10 TN, κ = 1.0). 
+This shows that the model consistently distinguishes eligible from ineligible patients with high sensitivity and minimal false positives, confirming reproducible diagnostic performance
+ (see Table 3).
+Agreement with Traditional Expert Review
+:
+Across the 50-case validation set, the DAS reached the same eligibility criteria as the TA in 49 cases, giving an overall concordance of 98 %. Agreement was high for both independent DAS runs (AI-1 and AI-2): Cohen’s κ = 0.94 (95 % CI 0.82 – 1.00) against the manual benchmark in each run, and a perfect κ = 1.00 when the two AI outputs were compared with each other. An exact McNemar test of the TA-vs-AI disagreement cells returned p = 1.00, indicating no systematic bias in the rare discordant call. Taken together, these figures place DAS solidly in the “almost-perfect” agreement range, (see 
+T
+able
+ 
+4).
+Metric
+Value
+Agreement TA vs AI-1
+98%
+Agreement TA vs AI-2
+98%
+Agreement AI-1 vs AI-2
+100%
+Cohen’s κ (TA vs AI-1)
+0.94 (95 % CI 0.82 – 1.00)
+Cohen’s κ (TA vs AI-2)
+0.94 (95 % CI 0.82 – 1.00)
+Cohen’s κ (AI-1 vs AI-2)
+1
+McNemar test (TA vs AI; exact, two-sided)
+p = 1.00
+Table 4:
+ Summary of concordance statistics between the traditional approach (TA) and two independent DAS runs.
+Legend:
+ Summary of concordance statistics between TA and each independent DAS run, and between the two DAS runs. “Agreement” is the simple percent of identical eligible/not-eligible calls. Cohen’s κ (with 95% CI) quantifies chance-corrected agreement (0–1 scale). The exact McNemar test (two-sided, α = 0.05) evaluates asymmetry in the discordant cells (TA vs DAS) to detect systematic bias. Results indicate high reproducibility within DAS and “almost-perfect” agreement with TA on the binary eligibility decision. Abbreviations: κ, Cohen’s kappa; CI, confidence interval; DAS, decision-aid system; TA, traditional approach.
+Error 
+A
+nalysis
+:
+There were two harmless inconsistencies, one involving redundant flags that annotated non-NCCN biomarkers, and the other two reflecting partial errors, one omitting a trigger for repeated family history, and the other misapplying the age-over-50 rule. Despite these errors, the system's binary eligible vs not eligible judgment remained unchanged, so clinical management was not affected
+. Including a human in the loop when entering phrases and 
+analysing family history will enhance consistency and provide fresh annotations for continuous retraining of the DAS.
+Performance Evaluation
+ 
+S
+ummary
+ of the 
+DAS
+:
+Across the 50 breast cancer cases, the DAS correctly flagged 46 as meeting 
+NCCN
+ genetic-testing criteria, yielding an accuracy of 92 %. 
+The four discrepancies were limited to either the omission of a single criterion or the addition of an irrelevant observation; none changed clinical judgment in a way that would jeopardize the patient's management
+. When the same data set was processed twice, the full narrative output from the two DAS iterations matched in 46 cases (92 %). In the remaining four, differences were restricted to explanatory sentences. At the same time, the underlying eligibility designation (“eligible” vs “not eligible”) remained identical in every case demonstrating high textual reproducibility and perfect decision-level consistency.
+ Comparing DAS decisions with the traditional review produced an overall concordance of 98 % and Cohen’s κ of 0.94 for each run, indicating almost perfect agreement. Agreement between the two DAS runs on the binary eligibility flag was flawless (100 %, κ = 1.00). Both runs achieved sensitivity = 1.00, specificity ≈ 0.91, and identical AUCs of 0.96, underscoring robust diagnostic performance
+. 
+Application Features for DAS:
+The web-based Decision Aid System shepherds a high-risk breast-cancer patient through the entire pre-test journey: after a simple signup, the user watches concise welcome and orientation scripts/videos, then enters personal demographics, clinical history and a three-generation pedigree that can be drawn directly on-screen or uploaded. An AI engine analyses the pathology details and pedigree against NCCN criteria, immediately classifying 
+eligibility and displaying an interpretive report. Eligible patients proceed to multimedia education modules that explain inheritance concepts, multigene-panel testing, result interpretation, and the benefits, risks and limits of testing. They can then electronically sign a consent form and complete a brief knowledge-check questionnaire. Throughout, an OpenAI-powered 
+Chatbot
+, pre-loaded with guideline content and FAQs, offers on-demand answers across clinical, psychosocial and practical domains, making the whole process interactive, self-paced and less dependent on scarce genetic-counselling time (see Figure 3 and 
+Supporting
+ Data 
+Patient 
+Registration
+Patient 
+Registration
+Educational Videos
+Genetic Counselling Introduction
+Educational Videos
+Genetic Counselling Introduction
+Personal Information Input
+Personal Information Input
+Clinical History Collection
+Clinical History Collection
+Family Pedigree Creation
+Family Pedigree Creation
+Upload Existing Pedigree
+Upload Existing Pedigree
+Manual Pedigree Drawing
+Manual Pedigree Drawing
+AI Analysis Engine
+AI Analysis Engine
+NCCN Guidelines Assessment
+NCCN Guidelines Assessment
+Eligibility Decision
+Eligibility Decision
+Not Eligible
+Not Eligible
+Eligible
+Eligible
+Alternative Recommendation
+Alternative Recommendation
+Educational modules inheritance, Testing, Results
+Educational modules inheritance, Testing, Results
+Informed Consent Process
+Informed Consent Process
+Knowledge Assessment Quiz
+Knowledge Assessment Quiz
+ChatBot Support Ava
+ilable Throughout
+ChatBot Support Ava
+ilable Throughout
+Figure 
+3:
+ 
+Workflow of the 
+GeneticBot
+ web-based decision aid
+. 
+Discussion 
+This project developed an innovative genetic 
+counselling
+ support system combining a decision aid and 
+Chatbot
+ to improve accessibility and efficiency in 
+pre-test genetic
+ 
+counselling
+ for high-risk breast cancer patients. Rooted in a thorough analysis of 
+NCCN
+ 
+Guidelines
+ and existing literature, the framework addresses gaps in traditional methods by enhancing patient education, streamlining decision-making, improving communication, saving time for patients and healthcare providers, and reducing resources. 
+The system integrates clinical and family history taking, educational modules, benefits and risks of genetic testing, consent, and real-time information/consultation
+. By ensuring critical details are shared before consent and reducing reliance on in-person sessions, the tool aims to increase patient understanding and engagement, making genetic 
+counselling
+ more effective, accessible, and patient-
+centered
+.
+ 
+One of the key innovative features of this application is its built-in pedigree drawing tool, which sets it apart from traditional methods. Typically, genetic 
+counsellor
+s manually construct pedigrees or rely on third-party software that requires an annual license, adding to 
+the overall cost of genetic 
+counselling
+ services. Our
+ 
+DAS
+ 
+system integrates an automated pedigree drawing function, allowing users to create their family history diagram within the application. Users can either draw the pedigree while using the DAS application after watching a guided demonstration video or upload a hand-drawn pedigree, which the system then processes. In both cases, AI-driven tools extract relevant clinical and genetic information, integrating it with other patient
+’s
+ data. This AI-assisted approach automates risk classification by assessing eligibility for genetic testing based on the 
+NCCN
+ criteria, thereby streamlining decision-making and enhancing the efficiency of genetic 
+counselling
+ services.
+Our validation of the DAS on 
+50 constructed
+ synthetic cases shows that the platform delivers expert-level performance while preserving clinical safety. DAS identified 
+NCCN
+-eligible patients with perfect sensitivity and 0.91 specificity, attaining 98 % overall agreement (κ = 0.94) with traditional manual review and an AUC of 0.96. Two independent runs produced identical eligibility calls (κ = 1.00), underscoring excellent internal reproducibility, and the few discrepancies were confined to non-critical explanatory notes that left the “
+eligible
+-versus-no
+t-eligible
+” decision unchanged.
+ Despite these minimal variations, the DAS system effectively streamlined patient eligibility assessment, enhancing efficiency while maintaining accuracy.
+ I
+ntegrating Human-in-the-Loop (HITL) into the process could further improve the accuracy and consistency of the DAS system. HITL involves expert review and feedback, which helps correct errors, refine details, and ensure the AI properly interprets complex or nuanced data. This process enables the AI to learn and adapt over time, resulting in more reliable outputs. Additionally, HITL enhances precision by ensuring reports follow a consistent structure, use appropriate terminology, and remain aligned with evolving requirements. By combining AI efficiency with human oversight, this approach makes 
+reports more accurate, structured, and trustworthy, reinforcing the potential of the DAS application as a reliable tool for clinical decision-making 
+(24)
+ . 
+The use of a Decision Support Aid (DSA) and 
+Chatbot
+ for 
+pre-test genetic
+ 
+counselling
+ based on 
+NCCN
+ 
+Guidelines
+ in high-risk breast cancer patients presents both benefits and challenges, particularly in the MENA region. Biases may arise due to differences in genetic factors, cultural norms, healthcare systems, and resource availability compared to Western populations
+. One notable bias emerges from the differences in genetic homogeneity. The breast cancer genes that define MENA populations and Western populations may not be the same, and such differences will be problematic if DSA and 
+Chatbot
+ are determined using data from the US alone. Another bias rests on cultural factors. Certain beliefs that are held concerning culture in the MENA area could affect the willingness of individuals to seek genetic counselling and testing services and could, therefore, render such services underutilized. Healthcare system disparities are also sources of bias. 
+MENA populations have very limited access
+ to genetic counselling and testing services compared to the western ones, which might interfere with the efficient use of such instruments. These issues have been featured in the literature regarding applying Western 
+Guidelines
+ in other literature and health systems settings 
+(25)
+.
+To address these biases, one key strategy is to adapt the 
+NCCN
+ 
+Guidelines
+ to align with the genetic, cultural, and healthcare context of the MENA region. This process involves collaboration with local experts and healthcare providers, as demonstrated in the 
+NCCN
+’s initiative to tailor oncology 
+Guidelines
+ for the MENA region. Committees of regional oncology specialists reviewed the original 
+NCCN
+ 
+Guidelines
+ and worked with 
+NCCN
+ experts to adjust them based on local evidence and clinical practices. For breast and ovarian cancer genetic assessment, the adapted 
+Guidelines
+ for MENA remain more than 95% consistent with the original 
+NCCN
+ 
+Guidelines
+, highlighting their applicability while 
+addressing regional nuances. This effort has fostered greater evidence-based practice and collaboration within the region 
+(26,27)
+. Also, altering the DSA and 
+Chatbot
+ programs by including data on the region's genetics and epidemiology would make them more precise and relevant to the targeted audience. Furthermore, redesigning the 
+Chatbot
+ to be culturally appropriate and training it to understand the context of the MENA region can also increase the acceptance of the device among the people. This can be achieved by involving the stakeholders, such as the patients, health providers, and community leaders so that the interventions are relevant to them. Finally, the DSA and Chat Bot must continually be evaluated and updated per user expectations and information emerging from the area to remain effective. 
+By incorporating the methods discussed above, these tools should address the gaps in pre-test genetic counselling services available in the MENA region and promote genetic 
+equity 
+(28)
+.
+The real-world validation involving both patients and healthcare providers is essential to evaluate accessibility, efficiency, and predefined metrics (
+see 
+Supporting
+ Data 7
+) in comparison to traditional 
+approaches.
+ User feedback will be vital in assessing clarity, relevance, and satisfaction. At the same time, performance metrics on accessibility and efficiency will measure the hybrid approach's effectiveness using the DAS system and 
+Chatbot
+. The validation will focus on two key aspects: identifying suitable patients for genetic testing and improving efficiency and accessibility in 
+pre-test genetic
+ 
+counselling
+ for high-risk breast cancer patients 
+using real (human) as well as synthetic cases
+. Future developments will integrate user-driven improvements.
+In conclusion, t
+he specialty of genetic counselling has rapidly developed, with the adoption of new technologies including 
+Chatbot
+s and decision aid support to meet increasing demand. There have been significant advances in AI based 
+Chatbot
+s and decision support systems which have made it possible for a larger population to receive and utilize the pre-test genetic 
+counselling services effectively. Other barriers of the genetic 
+counselling
+ have also included the insufficiency of enough genetic counsellor. In these regards, however, relatively good 
+telegenetics
+ and collaborative models’ advances have been done in more genetic testing practice operational comfort. These developments highlight the urgent need for adaptation and global alignment of the profession to ensure effective, timely, and individualized care. All practitioners in genetic counselling must work toward evolving practice standards to meet the demands of modern healthcare systems.
+Declarations
+5.1 
+Funding
+The publication of this study was funded by Qatar University. The funding body had no role in the study design, data collection, analysis, or the preparation of the manuscript.
+ 
+No specific research funding was received
+.
+Acknowledgments
+We thank the 
+NCCN
+ for permission to use content from the 2024 
+NCCN
+ 
+Guidelines
+ for Genetic/Familial High-Risk Assessment: Breast, Ovarian & Pancreatic (Version 3.2024) and for their constructive review and approval of this manuscript.
+Referenced with permission
+ from the NCCN Clinical Practice Guidelines in Oncology (NCCN Guidelines) for Genetic/Familial High-Risk Assessment: Breast, Ovarian, and Pancreatic V.3.2024. National Comprehensive Cancer Network, Inc. 2024.  All rights reserved. Accessed February 3, 2024. To view the most recent and complete version of the guideline, go online to NCCN.org. NCCN makes no warranties of any kind whatsoever regarding their content, use or application and disclaims any responsibility for their application or use in any way.
+Data Availability
+The study was conducted entirely with synthetic, non-identifiable test scenarios; no human participants or real health data were used. The Supporting Information includes: (
+1
+) chatbot data used in testing, (
+2
+) synthetic Pathology reports 1–50, (
+3
+) synthetic Pedigree reports 1–50 (three-generation pedigrees), (
+4
+) AI/eligibility reports with guideline-grounded rationales, (
+5
+) the eligibility rule table for all 50 cases,
+ (6) Images for the Application
+ (
+7
+) Metrics & Future Work (accuracy, sensitivity/specificity, κ/AUC, and planned extensions), and (
+8
+) Statistical Analysis (methods, tests, and parameters).
+ 
+Other materials are available from the corresponding author upon reasonable request
+Author 
+C
+ontributions
+Conceptualization: 
+Lama Abujamous
+. Methodology: 
+Lama Abujamous & Iyad Sultan
+. Validation: 
+Lama Abujamous, Iyad Sultan
+,
+ 
+Abdelghani Tbakhi
+ 
+and Nancy Hakooz
+. Formal analysis: 
+Lama Abujamous & Iyad Sultan
+. Investigation: 
+Lama Abujamous & Iyad Sultan
+. Data curation (synthetic cases): 
+Lama Abujamous
+. Writing-original draft: 
+Lama Abujamous
+. Writing- review & editing: 
+Lama Abujamous, Iyad Sultan
+,
+ Hamda Al-
+Thawadi
+,  
+Abdelghani Tbakhi,
+ Nancy 
+Hakooz
+ and Hikmat Abdel-Razeq
+. Visualization: 
+Lama Abujamous & Iyad Sultan
+. Supervision:
+ 
+Iyad Sultan
+,
+ Hamda Al-
+Thawadi
+ and 
+Nancy Hakooz
+. Project administration: 
+Iyad Sultan
+. Funding acquisition: 
+Hamda Al-
+Thawadi
+.
+ 
+Competing Interests
+  The authors declare no competing interests.
+ 
+References 
+1.
+Daly MB, Pal T, Maxwell KN, 
+Churpek
+ J, Kohlmann W, 
+AlHilli
+ Z, et al. NCCN Guidelines® Insights: Genetic/Familial High-Risk Assessment: Breast, Ovarian, and Pancreatic, Version 2.2024. Journal of the National Comprehensive Cancer Network. 2023 Oct;21(10):1000–10. 
+2.
+Tayoun
+ AAA, Fakhro KA, Alsheikh-Ali A, 
+Alkuraya
+ F. Genomic medicine in the Middle East. Genome Med. 2021; 
+3.
+Wanis KN, Kuerer HM, Sun SX, Hunt KK, 
+Glencer
+ AC, Teshome M, et al. Clinical Outcomes for 
+BRCA
+ Pathogenic Variant Carriers 
+With
+ Breast Cancer Undergoing Breast Conservation. JAMA 
+Netw
+ Open. 2024 Jun 25;7(6):e2418486. 
+4.
+Hu C, Hart SN, 
+Gnanaolivu
+ R, Huang H, Lee KY, Na J, et al. A Population-Based Study of Genes Previously Implicated in Breast Cancer. New England Journal of Medicine. 2021 Feb 4;384(5):440–51. 
+5.
+Abou 
+Tayoun
+ AN, AlHarthi H, 
+AlMubarak
+ BR, others. Recommendations for interpreting genetic variants in Arab populations. NPJ 
+Genom
+ Med. 2021;6(1):52. 
+6.
+Green S, Hartzfeld D, Terry AB, Fissell K, Friedman S, Paolino N, et al. An <
+scp
+>evidence‐based</
+scp
+> practice guideline of the National Society of Genetic 
+Counselors
+ for telehealth genetic 
+counseling
+. J Genet Couns. 2023 Feb 30;32(1):4–17. 
+7.
+Danylchuk
+ NR, Cook L, Shane‐Carson KP, Cacioppo CN, Hardy MW, Nusbaum R, et al. Telehealth for genetic 
+counseling
+: A systematic evidence 
+review
+. J Genet Couns. 2021 Oct 6;30(5):1361–78. 
+8.
+Shendure
+ J, Ji H. Next-generation DNA sequencing. Vol. 26, Nature Biotechnology. 2008. p. 1135–45. 
+9.
+Bamshad MJ, Ng SB, Bigham AW, Tabor HK, Emond MJ, Nickerson DA, et al. Exome sequencing as a tool for Mendelian disease gene discovery. Vol. 12, Nature Reviews Genetics. 2011. p. 745–55. 
+10.
+Yorczyk
+ A, Robinson LS, Ross TS. Use of panel tests in place of single gene tests in the cancer genetics clinic. Clin Genet. 2015 Sep 1;88(3):278–82. 
+11.
+Lynce
+ F, Isaacs C. How Far Do We Go 
+With
+ Genetic Evaluation? Gene, Panel, and 
+Tumor
+ Testing. American Society of Clinical Oncology Educational Book. 2016 May;(36):e72–8. 
+12.
+Daly MB, Pal T, Berry MP, Buys SS, Dickson P, 
+Domchek
+ SM, et al. Genetic/familial high-risk assessment: Breast, ovarian, and pancreatic, version 2.2021. Vol. 19, JNCCN Journal of the National Comprehensive Cancer Network. Harborside Press; 2021. p. 77–102. 
+13.
+Abdel-Razeq H, Sharaf B, Tamimi F, Hani HB, 
+Alsmadi
+ O, Khalil H, et al. Establishment of a clinical cancer genetics program for breast cancer in a resource-limited country; challenges and opportunities. Front Oncol. 2024 Oct 23;14. 
+14.
+El 
+Naofal
+ M, Ramaswamy S, 
+Alsarhan
+ A, 
+Nugud
+ A, Sarfraz F, 
+Janbaz
+ H, et al. The genomic landscape of rare disorders in the Middle East. Genome Med. 2023 Dec 1;15(1). 
+15.
+Abou 
+Tayoun
+ AN, Fakhro KA, Alsheikh-Ali A, 
+Alkuraya
+ FS. Genomic medicine in the Middle East. Genome Med. 2021 Dec 1;13(1). 
+16.
+Abacan
+ MA, 
+Alsubaie
+ L, Barlow-Stewart K, 
+Caanen
+ B, Cordier C, Courtney E, et al. The Global State of the Genetic 
+Counseling
+ Profession. Vol. 27, European Journal of Human Genetics. Nature Publishing Group; 2019. p. 183–97. 
+17.
+Schmidlen
+ T, Sturm AC, Hovick S, 
+Scheinfeldt
+ L, Scott Roberts J, Morr L, et al. Operationalizing the Reciprocal Engagement Model of Genetic 
+Counseling
+ Practice: 
+a
+ Framework for the Scalable Delivery of Genomic 
+Counseling
+ and Testing. J Genet Couns. 2018 Sep 1;27(5):1111–29. 
+18.
+Bombard Y, 
+Hayeems
+ RZ. How digital tools can advance quality and equity in genomic medicine. Vol. 21, Nature Reviews Genetics. Nature Research; 2020. p. 505–6. 
+19.
+Phillips KA, 
+Deverka
+ PA, Hooker GW, Douglas MP. Genetic test availability and spending: Where are we now? Where are we going? Health Aff. 2018;37(5):710–6. 
+20.
+Peffers K, 
+Tuunanen
+ T, Rothenberger MA, Chatterjee S. A design science research methodology for information systems research. Journal of Management Information Systems. 2007 Dec;24(3):45–77. 
+21.
+Sabri MO, Odeh M, Saad M. Incremental development of business process architecture using the design science research methodology. In: Proceedings of the European Conference on Research Methods in Business and Management Studies. Academic Conferences Limited; 2019. p. 285–93. 
+22.
+Hevner A CS. Design research
+ in information systems. Theory and practice [Internet]. 2010. Available from: http://www.springer.com/series/6157
+23.
+Hajian-
+Tilaki
+ K. Sample size estimation in diagnostic test studies of biomedical informatics. J Biomed Inform. 2014 Apr;48:193–204. 
+24.
+Al-Turki D, Hettiarachchi H, Gaber MM, 
+Abdelsamea
+ MM, 
+Basurra
+ S, 
+Iranmanesh
+ S, et al. Human-in-the-Loop Learning with LLMs for Efficient RASE Tagging in Building Compliance Regulations. IEEE Access. 2024; 
+25.
+Cohen-Kfir N, 
+Bentwich
+ ME, Kent A, Dickman N, Tanus M, 
+Higazi
+ B, et al. Challenges to effective and autonomous genetic testing and 
+counseling
+ for ethno-cultural minorities: a qualitative study. BMC Med Ethics. 2020 Dec 1;21(1). 
+26.
+Rahman Jazieh A. Adaptation of NCCN Guidelines to the Middle East and North Africa Region. Vol. 12, Journal of the National Comprehensive Cancer Network Commentary © JNCCN-Journal of the National Comprehensive Cancer Network |. 2014. 
+27.
+Jazieh
+ AR, Azim HA, McClure J, Jahanzeb M. The Process of NCCN 
+Guidelines
+TM
+ Adaptation to the Middle East and North Africa Region. J Natl 
+Compr
+ 
+Canc
+ 
+Netw
+ [Internet]. 2010 Jul;8(
+Suppl
+ 3):S-5-S-7. Available from: https://jnccn.org/doi/10.6004/jnccn.2010.0125
+28.
+Dianne Alameddine MS L. From West to East: Understanding the Cultural Implications of Genetic 
+Counseling
+ in the Middle East. perspectives.nsgc.org. 2023 Mar 23; 
+ 
+Figure legends:
+Figure 1: 
+DSA & 
+Chatbot
+ Research Framework. This diagram summarizes the decision-aid (DSA) and 
+Chatbot
+ research framework used to design, build, and evaluate a pre-test genetic counselling tool. The framework follows a design-science cycle, progressing from problem definition and objective setting to iterative design/development, demonstration, and evaluation. Core components include structured intake (personal and family history), eligibility logic aligned to established clinical criteria for hereditary breast-cancer testing, 
+education modules (benefits, risks, and limitations of testing), informed-consent support, and real-time Q&A via the 
+Chatbot
+. Outputs include transparent eligibility rationales and printable summaries for clinicians and patients. The framework is intended to augment -not replace- clinical judgement, help prioritize high-risk 
+referrals and
+ standardize documentation in settings with limited genetics capacity.
+Figure 2:
+ Methodological flow of the validation study. 
+Methodological flow of the validation study using 50 synthetic, non-identifiable cases. The pipeline depicts: (a) case construction and blinding; (b) two independent DSA runs (AI-1 and AI-2) applying the same published eligibility rules; (c) reference review by traditional manual assessment; and (d) concordance analysis (sensitivity, specificity, overall agreement, Cohen’s κ) and receiver-operating-characteristic analysis (AUC). In our evaluation, the system showed perfect sensitivity for identifying eligible cases, specificity of 0.91, overall agreement of 98% with manual review (κ = 0.94), and AUC = 0.96. Internal reproducibility was perfect across the two independent runs (κ = 1.00), with any differences confined to non-critical explanatory notes that did not alter eligibility calls. This flow illustrates how reproducibility and agreement were assessed without using human participants or real-world health data.
+Figure 3: 
+Workflow of the 
+GeneticBot
+ web-based decision aid. 
+Workflow of the 
+GeneticBot
+ decision aid from user intake to output. The sequence includes: (a) guided collection of personal and family history; (b) pedigree capture via an integrated drawing tool or upload; (c) automated extraction and normalization of relevant clinical/genetic details; (d) application of established eligibility rules with explicit triggers; (e) educational prompts covering indications for testing, benefits, risks, and limitations; and (f) generation of auditable rationales and printable summaries for patients and clinicians. Optional 
+Chatbot
+ 
+interaction supports clarification during intake and consent preparation. The system is designed to improve preparedness for counselling visits, standardize eligibility decisions, and reduce administrative burden while preserving human oversight.
+Supporting information captions
+:
+Supporting Data 1
+: 
+Chatbot data
+.
+Supporting Data 
+2:
+ 
+Pathology_Report_1 to 50.
+Supporting Data 
+3
+:
+ 
+Pedigree_reports
+_ 1 to 50
+.
+Supporting Data 
+4
+:
+ 
+AI Reports
+.
+Supporting Data 
+5
+:
+ 
+Eligibility rule table for 50 cases
+.
+Supporting Data 
+6
+:
+ 
+The application.
+Supporting Data 
+7
+:
+ 
+Metrics_Future
+ Work
+Supporting Data 
+8
+:
+ 
+Statistical Analysis

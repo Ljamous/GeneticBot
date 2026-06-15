@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
+</head>
+<body>
+<input type="text" id="dob" title="test" placeholder="Select Date"/>
+
+<script src="plugins/jquery/jquery.min.js"></script>
+<script src="plugins/moment/moment.min.js"></script>
+<script src="plugins/inputmask/jquery.inputmask.min.js"></script>
+<script src="plugins/daterangepicker/daterangepicker.js"></script>
+
+<script>
+  $(function() {
+    // Initialize the date range picker on the #dob input
+    $('#dob').daterangepicker({
+      singleDatePicker: true,    // Make sure it's a single date picker
+      showDropdowns: true,       // Show dropdowns for selecting year and month
+      locale: {
+        format: 'YYYY-MM-DD'    // Set the format to "yyyy-mm-dd"
+      }
+    });
+  });
+</script>
+</body>
+</html>

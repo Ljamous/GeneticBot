@@ -1,0 +1,72 @@
+Supporting Information: Structured comparison of GeneticBot with existing tools
+Manuscript: 
+GeneticBot web decision aid for pre-test genetic counselling in high-risk breast cancer (PDIG-D-25-01018). This table positions GeneticBot against representative breast/ovarian risk models, eligibility checkers, telegenetics delivery, and pedigree software. The point of the comparison is that GeneticBot's contribution is integration, not the eligibility logic itself, which is NCCN's. Tool characteristics reflect each tool's documented primary function; readers should consult each tool's current documentatio
+n for details.
+Tool
+Primary output
+Guideline-grounded eligibility
+Explained rationale
+Integrated pedigree capture
+Education + consent workflow
+Deployment / cost
+Typical setting
+GeneticBot (this work)
+NCCN pre-test eligibility (A/B) with cited triggers
+Yes (NCCN v3.2024 via RAG)
+Yes (LLM rationale + cited criteria)
+Yes (draw on-screen or upload)
+Yes (modules, e-consent, quiz, chatbot)
+Web; locally deployable; no per-seat licence
+Pre-test triage, low-resource/MENA
+Tyrer-Cuzick / IBIS
+Breast-cancer risk + BRCA likelihood (probability)
+No (risk model, not eligibility)
+Limited (numeric risk, little narrative)
+No (form-based family history)
+No
+Free desktop/web
+Risk stratification / screening
+BOADICEA / CanRisk
+Carrier probability + breast/ovarian risk
+No
+Limited
+Partial (pedigree import/build)
+No
+Free web (canrisk.org)
+Specialist clinic / research
+BRCAPRO
+BRCA1/2 carrier probability
+No
+Limited
+Partial (family history input)
+No
+Free (BayesMendel / CRA)
+Genetics clinic
+Ask2Me
+Gene-specific penetrance / management estimates
+Partial (gene-based, not NCCN triage)
+Limited
+No
+No
+Free web
+Clinical decision support
+Telegenetics platforms
+Remote counselling delivery
+No (delivery channel)
+N/A
+No
+Varies
+Commercial / institutional
+Access expansion
+Commercial pedigree software (e.g., Progeny, PedigreeXP)
+Pedigree drawing and storage
+No
+No
+Yes (drawing/storage)
+No
+Paid annual licence
+Genetics clinics
+Abbreviations: 
+RAG, retrieval-augmented generation; NCCN, National Comprehensive Cancer Network; LLM, large language model; MENA, Middle East and North Africa. 
+Interpretation. 
+The risk models (Tyrer-Cuzick, BOADICEA/CanRisk, BRCAPRO) answer a different question (how much risk?) than GeneticBot (does this person meet NCCN testing criteria, and why?). No listed tool combines guideline-grounded eligibility rationale, integrated pedigree capture, and an education/consent workflow in a single locally deployable package. We make no priority ('first') claim; the novelty is this integration.
