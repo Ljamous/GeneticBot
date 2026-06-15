@@ -58,7 +58,7 @@
                 </div>
                   <div class="tab-pane fade" id="custom-tabs-three-video" role="tabpanel" aria-labelledby="custom-tabs-three-video-tab">
                   <video width="100%" height="100%" controls>
-                    <source src="videos/Multigene panel and  Outcome results.mp4" type="video/mp4">
+                    <source src="videos/Multigene panel and Outcome results.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                   </video>
                   </div>
