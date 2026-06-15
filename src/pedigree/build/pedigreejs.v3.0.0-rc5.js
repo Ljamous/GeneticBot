@@ -2238,7 +2238,7 @@ var pedigreejs = (function (exports) {
 	    } else {
 	      console.warn("No SVG found to download.");
 	    }
-	    let parentOrigin = "http://lama.local";
+	    let parentOrigin = "http://geneticbot.local";
 	    try {
 	      if (window.parent && window.parent.location && window.parent.location.origin) {
 	        parentOrigin = window.parent.location.origin;
