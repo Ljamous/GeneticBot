@@ -24,9 +24,9 @@ OPENAI_API_KEY = getenv("OPENAI_API_KEY")
 
 # ---------- MySQL Database ----------
 DB_HOST = getenv("DB_HOST", "localhost")
-DB_USER = getenv("DB_USER", "Lama")
-DB_PASSWORD = getenv("DB_PASSWORD", "Lama@2025")
-DB_NAME = getenv("DB_NAME", "lamadb")
+DB_USER = getenv("DB_USER", "db_user")
+DB_PASSWORD = getenv("DB_PASSWORD", "db_password")
+DB_NAME = getenv("DB_NAME", "app_db")
 
 # ---------- DB Connection Function ----------
 import mysql.connector

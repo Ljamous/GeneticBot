@@ -1,7 +1,7 @@
 # ============================================
-# Lama Application - Quick Setup Script
+# GeneticBot Application - Quick Setup Script
 # ============================================
-# This script automates the initial setup of the Lama application
+# This script automates the initial setup of the GeneticBot application
 # Run this script after copying the project to a new machine
 # ============================================
 
@@ -13,7 +13,7 @@ param(
 
 function Show-Help {
     Write-Host @"
-Lama Application - Quick Setup Script
+GeneticBot Application - Quick Setup Script
 
 USAGE:
     .\setup.ps1 [-InstallPath <path>] [-SkipVenv] [-Help]
@@ -38,7 +38,7 @@ if ($Help) {
 
 Write-Host @"
 ============================================
-Lama Application - Quick Setup
+GeneticBot Application - Quick Setup
 ============================================
 Installation Path: $InstallPath
 ============================================
@@ -113,9 +113,9 @@ if (-not $SkipVenv) {
         Write-Host "  ✗ GeneticBot directory not found" -ForegroundColor Red
     }
 
-    # Lama_pedegree
-    Write-Host "`n[3/3] Setting up Lama Pedigree service..." -ForegroundColor Yellow
-    $pedigreePath = Join-Path $InstallPath "src\Lama_pedegree"
+    # pedigree
+    Write-Host "`n[3/3] Setting up Pedigree service..." -ForegroundColor Yellow
+    $pedigreePath = Join-Path $InstallPath "src\pedigree"
     if (Test-Path $pedigreePath) {
         Set-Location $pedigreePath
         
@@ -130,9 +130,9 @@ if (-not $SkipVenv) {
             deactivate
         }
         
-        Write-Host "  ✓ Lama Pedigree setup complete" -ForegroundColor Green
+        Write-Host "  ✓ Pedigree setup complete" -ForegroundColor Green
     } else {
-        Write-Host "  ✗ Lama Pedigree directory not found" -ForegroundColor Red
+        Write-Host "  ✗ Pedigree directory not found" -ForegroundColor Red
     }
 }
 
@@ -172,14 +172,14 @@ Write-Host "     - $medicalEnv" -ForegroundColor Gray
 Write-Host "     - $chatbotEnv" -ForegroundColor Gray
 Write-Host ""
 Write-Host "  2. Set up MySQL database:" -ForegroundColor White
-Write-Host "     - Create database 'lamadb'" -ForegroundColor Gray
-Write-Host "     - Create user 'Lama' with password 'Lama@2025'" -ForegroundColor Gray
+Write-Host "     - Create database 'app_db'" -ForegroundColor Gray
+Write-Host "     - Create user 'db_user' with password 'db_password'" -ForegroundColor Gray
 Write-Host "     - Import any SQL files if provided" -ForegroundColor Gray
 Write-Host ""
 Write-Host "  3. Configure Apache virtual host (see DEPLOYMENT.md)" -ForegroundColor White
 Write-Host ""
 Write-Host "  4. Update start_servers.bat with your installation path:" -ForegroundColor White
-Write-Host "     - Edit: $InstallPath\src\lama\start_servers.bat" -ForegroundColor Gray
+Write-Host "     - Edit: $InstallPath\src\system\start_servers.bat" -ForegroundColor Gray
 Write-Host "     - Set BASE_PATH=$InstallPath\src" -ForegroundColor Gray
 Write-Host ""
 Write-Host "  5. Run start_servers.bat to launch all services" -ForegroundColor White

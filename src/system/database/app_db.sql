@@ -1,8 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `lamadb` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `lamadb`;
+CREATE DATABASE  IF NOT EXISTS `app_db` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `app_db`;
 -- MySQL dump 10.13  Distrib 8.0.42, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: lamadb
+-- Host: 127.0.0.1    Database: app_db
 -- ------------------------------------------------------
 -- Server version	8.0.42
 

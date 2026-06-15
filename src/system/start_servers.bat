@@ -1,8 +1,8 @@
 @echo off
 :: ============================================
-:: Lama Application - Server Startup Script
+:: GeneticBot Application - Server Startup Script
 :: ============================================
-:: This script starts all required services for the Lama application
+:: This script starts all required services for the GeneticBot application
 :: 
 :: CONFIGURATION REQUIRED:
 :: Update the paths below to match your installation directory
@@ -13,7 +13,7 @@
 :: ============================================
 
 :: Set base path - CHANGE THIS TO YOUR INSTALLATION PATH
-:: Example: C:\xampp\htdocs\Lama2\src or D:\Projects\Lama\src
+:: Example: C:\xampp\htdocs\GeneticBot\src or D:\Projects\GeneticBot\src
 set "BASE_PATH=d:\Shared\Lama2\Lama\src"
 
 :: Set XAMPP installation path
@@ -24,7 +24,7 @@ set "XAMPP_PATH=C:\xampp"
 :: ============================================
 
 echo ============================================
-echo Starting Lama Application Services
+echo Starting GeneticBot Application Services
 echo ============================================
 echo.
 echo Base Path: %BASE_PATH%
@@ -33,9 +33,9 @@ echo.
 echo Starting services...
 echo.
 
-:: Start Lama_pedegree server (Port 8001) in minimized CMD
-echo [1/4] Starting Lama Pedigree Service (Port 8001)...
-start "" /min cmd /k "cd /d %BASE_PATH%\Lama_pedigree && call venv\Scripts\activate && python -m http.server 8001"
+:: Start pedigree server (Port 8001) in minimized CMD
+echo [1/4] Starting Pedigree Service (Port 8001)...
+start "" /min cmd /k "cd /d %BASE_PATH%\pedigree && call venv\Scripts\activate && python -m http.server 8001"
 
 :: Wait a moment before starting next service
 timeout /t 2 /nobreak >nul
@@ -47,7 +47,7 @@ start "" /min cmd /k "cd /d %BASE_PATH%\Medical-Analysis-main && call venv\Scrip
 :: Wait a moment before starting next service
 timeout /t 2 /nobreak >nul
 
-:: Start lama_chatbot (Streamlit - Port 8501) in minimized CMD
+:: Start genetic_bot (Streamlit - Port 8501) in minimized CMD
 echo [3/4] Starting GeneticBot (Port 8501)...
 start "" /min cmd /k "cd /d %BASE_PATH%\genetic_bot && call env\Scripts\activate && streamlit run ui_app.py --server.port 8501"
 
@@ -66,7 +66,7 @@ timeout /t 5 /nobreak >nul
 :: Open the local site in browser
 echo.
 echo Opening application in browser...
-start "" http://lama.local
+start "" http://geneticbot.local
 
 echo.
 echo ============================================
@@ -74,7 +74,7 @@ echo All services launched successfully!
 echo ============================================
 echo.
 echo Services running:
-echo   - Main Application: http://lama.local
+echo   - Main Application: http://geneticbot.local
 echo   - Medical Analysis API: http://localhost:8000
 echo   - Pedigree Service: http://localhost:8001
 echo   - GeneticBot: http://localhost:8501

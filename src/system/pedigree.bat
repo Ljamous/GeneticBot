@@ -1,6 +1,6 @@
 @echo off
 REM ─ Change drive & directory
-cd /d C:\xampp\htdocs\Lama2\Lama_pedigree
+cd /d C:\xampp\htdocs\GeneticBot\src\pedigree
 
 REM ─ Activate the venv
 call venv\Scripts\activate.bat

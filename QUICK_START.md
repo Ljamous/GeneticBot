@@ -1,4 +1,4 @@
-# Lama Application - Quick Reference
+# GeneticBot Application - Quick Reference
 
 ## 🚀 Quick Start (New Machine)
 
@@ -8,7 +8,7 @@
 powershell -ExecutionPolicy Bypass -File setup.ps1
 
 # OR specify custom path
-powershell -ExecutionPolicy Bypass -File setup.ps1 -InstallPath "D:\MyProjects\Lama"
+powershell -ExecutionPolicy Bypass -File setup.ps1 -InstallPath "D:\MyProjects\GeneticBot"
 ```
 
 ### 2. Configure Environment
@@ -17,17 +17,17 @@ Edit these files with your credentials:
 - `src\genetic_bot\.env`
 
 ### 3. Setup Database
-- Create database: `lamadb`
-- Create user: `Lama` / `Lama@2025`
+- Create database: `app_db`
+- Create user: `db_user` / `db_password`
 - Import SQL if provided
 
 ### 4. Configure Apache
 Add to `C:\xampp\apache\conf\extra\httpd-vhosts.conf`:
 ```apache
 <VirtualHost *:80>
-    ServerName lama.local
-    DocumentRoot "C:/xampp/htdocs/Lama2/src/Lama"
-    <Directory "C:/xampp/htdocs/Lama2/src/Lama">
+    ServerName geneticbot.local
+    DocumentRoot "C:/xampp/htdocs/GeneticBot/src/system"
+    <Directory "C:/xampp/htdocs/GeneticBot/src/system">
         AllowOverride All
         Require all granted
     </Directory>
@@ -36,19 +36,19 @@ Add to `C:\xampp\apache\conf\extra\httpd-vhosts.conf`:
 
 Add to `C:\Windows\System32\drivers\etc\hosts`:
 ```
-127.0.0.1 lama.local
+127.0.0.1 geneticbot.local
 ```
 
 ### 5. Update Start Script
-Edit `src\lama\start_servers.bat`:
+Edit `src\system\start_servers.bat`:
 ```batch
-set "BASE_PATH=C:\xampp\htdocs\Lama2\src"
+set "BASE_PATH=C:\xampp\htdocs\GeneticBot\src"
 set "XAMPP_PATH=C:\xampp"
 ```
 
 ### 6. Launch Application
 ```batch
-cd src\lama
+cd src\system
 start_servers.bat
 ```
 
@@ -57,14 +57,14 @@ start_servers.bat
 ## 📁 Project Structure
 
 ```
-Lama2/
+GeneticBot/
 ├── src/
-│   ├── Lama/                    # Main PHP application
+│   ├── system/                  # Main PHP application
 │   │   └── start_servers.bat    # Launch script
 │   ├── Medical-Analysis-main/   # FastAPI service (Port 8000)
 │   │   ├── .env                 # Configuration (create from .env.example)
 │   │   └── venv/                # Python virtual environment
-│   ├── Lama_pedegree/          # Pedigree service (Port 8001)
+│   ├── pedigree/               # Pedigree service (Port 8001)
 │   │   └── venv/               # Python virtual environment
 │   └── genetic_bot/            # Streamlit GeneticBot (Port 8501)
 │       ├── .env                # Configuration (create from .env.example)
@@ -81,9 +81,9 @@ Lama2/
 ### Medical-Analysis (.env)
 ```env
 DB_HOST=localhost
-DB_USER=Lama
-DB_PASSWORD=Lama@2025
-DB_NAME=lamadb
+DB_USER=db_user
+DB_PASSWORD=db_password
+DB_NAME=app_db
 OPENAI_API_KEY=your_key_here
 ```
 
@@ -98,7 +98,7 @@ OPENAI_API_KEY=your_key_here
 
 | Service | URL | Description |
 |---------|-----|-------------|
-| Main App | http://lama.local | PHP/Apache application |
+| Main App | http://geneticbot.local | PHP/Apache application |
 | Medical API | http://localhost:8000 | FastAPI medical analysis |
 | Pedigree | http://localhost:8001 | Pedigree visualization |
 | GeneticBot | http://localhost:8501 | Streamlit GeneticBot |
@@ -109,7 +109,7 @@ OPENAI_API_KEY=your_key_here
 
 ### Start All Services
 ```batch
-cd src\lama
+cd src\system
 start_servers.bat
 ```
 
@@ -124,7 +124,7 @@ uvicorn main:app --host 0.0.0.0 --port 8000
 
 **Pedigree:**
 ```powershell
-cd src\Lama_pedegree
+cd src\pedigree
 .\venv\Scripts\activate
 python -m http.server 8001
 ```
@@ -165,7 +165,7 @@ taskkill /PID <PID> /F
 ### Database Connection Failed
 1. Check MySQL is running in XAMPP
 2. Verify credentials in `.env`
-3. Test: `mysql -u Lama -p`
+3. Test: `mysql -u db_user -p`
 
 ### Apache Won't Start
 1. Check port 80: `netstat -ano | findstr :80`

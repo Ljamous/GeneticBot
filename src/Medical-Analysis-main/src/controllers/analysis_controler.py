@@ -338,7 +338,7 @@ async def analysis(request: AnalysisRequest):
 #         # Get data from family_pedigree
 #         cursor.execute("""
 #             SELECT img, csv, filetype
-#             FROM lamadb.family_pedigree
+#             FROM family_pedigree
 #             WHERE userId = %s
 #         """, (userId,))
 #         pedigree_data = cursor.fetchone()
@@ -366,7 +366,7 @@ async def analysis(request: AnalysisRequest):
 #         # Get histology report from clinical_histories
 #         cursor.execute("""
 #             SELECT histologyReportContent, histologyReportName, histologyReportType
-#             FROM lamadb.clinical_histories
+#             FROM clinical_histories
 #             WHERE userId = %s
 #         """, (userId,))
 #         clinical_data = cursor.fetchone()

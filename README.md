@@ -1,4 +1,4 @@
-# Lama Project - Genetic Testing & Medical Analysis Platform
+# GeneticBot Project - Genetic Testing & Medical Analysis Platform
 
 A comprehensive web application for genetic counseling, pedigree analysis, and medical report generation. Moving from traditional manual processes to an automated, AI-driven platform.
 
@@ -35,7 +35,7 @@ The application is containerized using Docker and consists of the following serv
 
 | Service              | Technology         | Internal Port | External Port | Description                                        |
 | :------------------- | :----------------- | :------------ | :------------ | :------------------------------------------------- |
-| **lama**             | PHP 8.2 + Apache   | 80            | **80**        | Main web application frontend and logic.           |
+| **system**           | PHP 8.2 + Apache   | 80            | **80**        | Main web application frontend and logic.           |
 | **db**               | MySQL 8.0          | 3306          | **3307**      | Relational database for user and application data. |
 | **medical-analysis** | Python (FastAPI)   | 8000          | **8000**      | AI engine for analyzing medical reports.           |
 | **pedigree**         | Python (HTTP)      | 8001          | **8001**      | Service for handling pedigree file processing.     |
@@ -50,8 +50,8 @@ The application is containerized using Docker and consists of the following serv
 Open your terminal (PowerShell, Command Prompt, or Git Bash) and run:
 
 ```bash
-git clone https://Lama2@dev.azure.com/Lama2/Lama/_git/Lama
-cd Lama
+git clone https://github.com/Ljamous/GeneticBot.git
+cd GeneticBot
 ```
 
 ### 2. Verify Docker Configuration
@@ -62,7 +62,7 @@ Ensure your `docker-compose.yml` is present in the root directory. This file han
 
 The project includes an automatic initialization script for the database.
 
-- **Source:** `src/Lama/database/lamadb.sql`
+- **Source:** `src/system/database/app_db.sql`
 - **Action:** When you run the project for the first time, this SQL file is automatically imported into the MySQL container to set up the schema and default tables.
 
 ---
@@ -90,7 +90,7 @@ To verify that all containers are running correctly:
 docker ps
 ```
 
-You should see 5 active containers listed (lama, db, medical-analysis, pedigree, genetic-bot).
+- You should see 5 active containers listed (system, db, medical-analysis, pedigree, genetic-bot).
 
 ### 3. Access the Application
 
@@ -155,7 +155,7 @@ If the PHP app cannot connect to the database:
   ```
   Or start only the core services first:
   ```bash
-  docker compose up -d --build db lama
+  docker compose up -d --build db system
   ```
 
 ### NCCN Test Error (NoneType)
@@ -167,4 +167,4 @@ If the PHP app cannot connect to the database:
 
 ## 📞 Support
 
-For issues related to the codebase or deployment, please check the Azure DevOps repository issues tracker.
+For issues related to the codebase or deployment, please check the GitHub repository issues tracker.

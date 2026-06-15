@@ -341,7 +341,7 @@ class analysis_service:
 
             cursor = conn.cursor()
             cursor.execute("""
-                INSERT INTO lamadb.analysis_reports (userId, report_text)
+                INSERT INTO analysis_reports (userId, report_text)
                 VALUES (%s, %s)
                 ON DUPLICATE KEY UPDATE report_text = VALUES(report_text)
             """, (user_id, json.dumps(report_dict)))  # Corrected usage

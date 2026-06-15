@@ -39,6 +39,7 @@ This guide explains how to deploy the Lama application on a different machine wi
 ### 2. Clone/Copy Project Files
 
 Copy the entire project to your desired location. For this guide, we'll use:
+
 ```
 C:\xampp\htdocs\Lama2\
 ```
@@ -68,9 +69,9 @@ OPENAI_API_KEY=your_openai_key_here
 
 # MySQL Database
 DB_HOST=localhost
-DB_USER=Lama
-DB_PASSWORD=Lama@2025
-DB_NAME=lamadb
+DB_USER=db_user
+DB_PASSWORD=db_password
+DB_NAME=app_db
 ```
 
 #### Create `.env` file for genetic_bot
@@ -79,7 +80,7 @@ Create a file at `src\genetic_bot\.env`:
 
 ```env
 # Add any required API keys or configuration
-OPENAI_API_KEY=your_openai_key_here
+OPENAI_API_KEY=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
 ```
 
 ### 4. Set Up Python Virtual Environments
@@ -87,24 +88,27 @@ OPENAI_API_KEY=your_openai_key_here
 Open PowerShell or Command Prompt and run:
 
 #### For Medical-Analysis
+
 ```powershell
-cd C:\xampp\htdocs\Lama2\src\Medical-Analysis-main
+cd C:\xampp\htdocs\GeneticBot\src\Medical-Analysis-main
 python -m venv venv
 .\venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
 #### For genetic_bot
+
 ```powershell
-cd C:\xampp\htdocs\Lama2\src\genetic_bot
+cd C:\xampp\htdocs\GeneticBot\src\genetic_bot
 python -m venv env
 .\env\Scripts\activate
 pip install -r requirements.txt
 ```
 
-#### For Lama_pedegree
+#### For pedigree
+
 ```powershell
-cd C:\xampp\htdocs\Lama2\src\Lama_pedegree
+cd C:\xampp\htdocs\GeneticBot\src\pedigree
 python -m venv venv
 .\venv\Scripts\activate
 # Install any dependencies if requirements.txt exists
@@ -113,11 +117,11 @@ python -m venv venv
 ### 5. Configure Database
 
 1. Open phpMyAdmin: `http://localhost/phpmyadmin`
-2. Create a new database named `lamadb`
+2. Create a new database named `app_db`
 3. Create a user:
-   - Username: `Lama`
-   - Password: `Lama@2025`
-   - Grant all privileges on `lamadb`
+   - Username: `db_user`
+   - Password: `db_password`
+   - Grant all privileges on `app_db`
 4. Import any SQL files if provided (e.g., `ptsdb.sql`)
 
 ### 6. Configure Apache Virtual Host
@@ -127,9 +131,9 @@ python -m venv venv
 
 ```apache
 <VirtualHost *:80>
-    ServerName lama.local
-    DocumentRoot "C:/xampp/htdocs/Lama2/src/Lama"
-    <Directory "C:/xampp/htdocs/Lama2/src/Lama">
+    ServerName geneticbot.local
+    DocumentRoot "C:/xampp/htdocs/GeneticBot/src/system"
+    <Directory "C:/xampp/htdocs/GeneticBot/src/system">
         Options Indexes FollowSymLinks
         AllowOverride All
         Require all granted
@@ -139,15 +143,16 @@ python -m venv venv
 
 3. Edit `C:\Windows\System32\drivers\etc\hosts` (as Administrator)
 4. Add this line:
+
 ```
-127.0.0.1 lama.local
+127.0.0.1 geneticbot.local
 ```
 
 5. Restart Apache from XAMPP Control Panel
 
 ### 7. Update Start Script
 
-Edit `src\lama\start_servers.bat` and update the paths:
+Edit `src\system\start_servers.bat` and update the paths:
 
 ```batch
 @echo off
@@ -155,8 +160,8 @@ Edit `src\lama\start_servers.bat` and update the paths:
 set "BASE_PATH=C:\xampp\htdocs\Lama2\src"
 set "XAMPP_PATH=C:\xampp"
 
-:: Start Lama_pedegree server (Port 8001) in minimized CMD
-start "" /min cmd /k "cd /d %BASE_PATH%\Lama_pedegree && call venv\Scripts\activate && python -m http.server 8001"
+:: Start pedigree server (Port 8001) in minimized CMD
+start "" /min cmd /k "cd /d %BASE_PATH%\pedigree && call venv\Scripts\activate && python -m http.server 8001"
 
 :: Start Medical-Analysis-main server (Port 8000) in minimized CMD
 start "" /min cmd /k "cd /d %BASE_PATH%\Medical-Analysis-main && call venv\Scripts\activate && uvicorn main:app --host 0.0.0.0 --port 8000"
@@ -179,7 +184,7 @@ pause >nul
 
 ### Option 1: Using the Start Script (Recommended)
 
-1. Double-click `src\lama\start_servers.bat`
+1. Double-click `src\system\start_servers.bat`
 2. All services will start automatically
 3. Your browser will open to `http://lama.local`
 
@@ -194,7 +199,7 @@ cd C:\xampp\htdocs\Lama2\src\Medical-Analysis-main
 uvicorn main:app --host 0.0.0.0 --port 8000
 
 # Terminal 2 - Pedigree Service
-cd C:\xampp\htdocs\Lama2\src\Lama_pedegree
+cd C:\xampp\htdocs\Lama2\src\pedigree
 .\venv\Scripts\activate
 python -m http.server 8001
 
@@ -229,8 +234,8 @@ If you get "port already in use" errors:
 
 1. Verify MySQL is running in XAMPP Control Panel
 2. Check database credentials in `.env` file
-3. Ensure database `lamadb` exists
-4. Test connection: `mysql -u Lama -p`
+3. Ensure database `app_db` exists
+4. Test connection: `mysql -u db_user -p`
 
 ### Apache Won't Start
 
@@ -252,12 +257,12 @@ pip install <package-name>
 For even faster deployment, you can use this PowerShell script. Save as `setup.ps1`:
 
 ```powershell
-# Quick Setup Script for Lama Application
+# Quick Setup Script for GeneticBot Application
 param(
-    [string]$InstallPath = "C:\xampp\htdocs\Lama2"
+    [string]$InstallPath = "C:\xampp\htdocs\GeneticBot"
 )
 
-Write-Host "Setting up Lama Application at: $InstallPath" -ForegroundColor Green
+Write-Host "Setting up GeneticBot Application at: $InstallPath" -ForegroundColor Green
 
 # Create virtual environments
 Write-Host "`nCreating virtual environments..." -ForegroundColor Yellow
@@ -274,7 +279,7 @@ python -m venv env
 pip install -r requirements.txt
 deactivate
 
-Set-Location "$InstallPath\src\Lama_pedegree"
+Set-Location "$InstallPath\src\pedigree"
 python -m venv venv
 
 Write-Host "`nSetup complete!" -ForegroundColor Green
@@ -286,6 +291,7 @@ Write-Host "4. Run start_servers.bat"
 ```
 
 Run with:
+
 ```powershell
 powershell -ExecutionPolicy Bypass -File setup.ps1
 ```
@@ -294,17 +300,17 @@ powershell -ExecutionPolicy Bypass -File setup.ps1
 
 ### Files to Update for New Machine
 
-1. **`src\lama\start_servers.bat`** - Update `BASE_PATH` and `XAMPP_PATH`
+1. **`src\system\start_servers.bat`** - Update `BASE_PATH` and `XAMPP_PATH`
 2. **`src\Medical-Analysis-main\.env`** - Database and API configuration
 3. **`src\genetic_bot\.env`** - API keys and configuration
 4. **Apache virtual host** - Update DocumentRoot path
-5. **Windows hosts file** - Add `lama.local` entry
+5. **Windows hosts file** - Add `geneticbot.local` entry
 
 ### Default Credentials
 
-- **Database User**: Lama
-- **Database Password**: Lama@2025
-- **Database Name**: lamadb
+- **Database User**: db_user
+- **Database Password**: db_password
+- **Database Name**: app_db
 
 **Important**: Change these credentials in production!
 
