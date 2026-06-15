@@ -1,18 +1,18 @@
-# NCCN RAG
+# GeneticBot - NCCN RAG Chatbot
 
 ### Title:
-NCCN RAG
+GeneticBot NCCN RAG Chatbot
 
 ### Description:
-A chatbot prototype based on the NCCN guidelines document for detection and treatment on cancer.
+GeneticBot is a chatbot based on the NCCN guidelines document for detection and treatment of cancer.
 
 ### Technologies Used:
 
  - Streamlit
  - Llama-Index: RAG Architecture
- - Open AI: Foundation Model
+ - OpenAI: Foundation Model
 
 ### Important Files:
- - ui_app.py: Entry point into streamlit prototype application
+ - ui_app.py: Entry point into Streamlit application
  - chat_engine.py: Base abstract class for supported engine types
- - chat_ui.py main user interface business component
+ - chat_ui.py: Main user interface business component
