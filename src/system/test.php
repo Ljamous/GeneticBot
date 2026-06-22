@@ -1,4 +1,12 @@
 <?php
+/* ==============================================================================
+ * Copyright (c) 2026 Ljamous/GeneticBot. All rights reserved.
+ *
+ * This code is for educational and non-commercial purposes only and may not be 
+ * used or redistributed without explicit written permission from the publisher.
+ * ==============================================================================
+ */
+
 function edit_context_file($agent_tables_views, $agent_examples, $agent_rules, $agentid, $userid){
 
 $context = 'You are an expert agent designed to interact with a HANA SQL database for SAP business one.

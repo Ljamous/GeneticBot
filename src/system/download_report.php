@@ -1,4 +1,12 @@
 <?php
+/* ==============================================================================
+ * Copyright (c) 2026 Ljamous/GeneticBot. All rights reserved.
+ *
+ * This code is for educational and non-commercial purposes only and may not be 
+ * used or redistributed without explicit written permission from the publisher.
+ * ==============================================================================
+ */
+
 // Prevent any output before headers
 if (ob_get_length()) ob_end_clean();
 header_remove();

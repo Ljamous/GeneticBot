@@ -1,3 +1,10 @@
+# ==============================================================================
+# Copyright (c) 2026 Ljamous/GeneticBot. All rights reserved.
+#
+# This code is for educational and non-commercial purposes only and may not be 
+# used or redistributed without explicit written permission from the publisher.
+# ==============================================================================
+
 import streamlit as st
 from streamlit.delta_generator import DeltaGenerator
 st.set_page_config(page_title="NCCN Chatbot", layout="wide")

@@ -1,4 +1,12 @@
 <?php
+/* ==============================================================================
+ * Copyright (c) 2026 Ljamous/GeneticBot. All rights reserved.
+ *
+ * This code is for educational and non-commercial purposes only and may not be 
+ * used or redistributed without explicit written permission from the publisher.
+ * ==============================================================================
+ */
+
 // download.php
 if (isset($_GET['userId']) && !empty($_GET['userId'])) {
   $userId = (int)$_GET['userId'];
