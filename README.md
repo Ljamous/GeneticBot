@@ -1,5 +1,8 @@
 # GeneticBot Project - Genetic Testing & Medical Analysis Platform
 
+> **Disclaimer**
+> This code is for educational purposes only and may not be used or redistributed without explicit written permission from the original publisher.
+
 A comprehensive web application for genetic counseling, pedigree analysis, and medical report generation. Moving from traditional manual processes to an automated, AI-driven platform.
 
 ## 📋 Table of Contents
