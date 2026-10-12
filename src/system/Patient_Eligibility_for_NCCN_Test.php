@@ -21,11 +21,18 @@ if (!isset($_SESSION["userid"])) {
 
 $needsUserChoice = $_SESSION['needsUserChoice'] ?? null;
 
-
-
 include './db/mycon.php';
 $userId = $_SESSION["userid"];
 $pedigree = $_SESSION['selected_pedigree'] ?? null;
+$selectedPedigreeType = $pedigree['type'] ?? null;
+$useUploadedFile = null;
+if ($selectedPedigreeType === 'upload') {
+    $useUploadedFile = true;
+} elseif ($selectedPedigreeType === 'manual') {
+    $useUploadedFile = false;
+} elseif ($needsUserChoice !== null) {
+    $useUploadedFile = (bool)$needsUserChoice;
+}
 ?>
 
 <div class="content-wrapper">
@@ -100,6 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const startSection = document.getElementById('start-section');
     const nextBtn = document.getElementById('btnNext');
     const needsUserChoice = <?= json_encode($needsUserChoice); ?>;
+    const useUploadedFile = <?= json_encode($useUploadedFile); ?>;
 
 
     nextBtn.addEventListener('click', () => {
@@ -123,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const postData = {
                 userId: userId,
-                useUploadedFile: needsUserChoice
+                useUploadedFile: useUploadedFile !== null ? useUploadedFile : needsUserChoice
             };
 
             const response = await fetch('http://localhost:8000/medical/analysis/', {
@@ -138,8 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!response.ok) {
                 const err = await response.json();
-                // DEBUG: Dump the entire error object to see what's happening
-                let errorMsg = JSON.stringify(err); 
+                let errorMsg = (err && err.detail) ? err.detail : JSON.stringify(err);
                 errorDiv.textContent = "Error Details: " + errorMsg;
                 errorDiv.style.display = 'block';
                 startSection.style.display = 'block';

@@ -1,2 +1,7 @@
 # Exclude documentation folder
 docs/
+
+# Environment files
+.env
+.env.local
+*.env

@@ -67,10 +67,15 @@
 
           <!-- Video Tab Content -->
           <div class="tab-pane fade" id="custom-tabs-three-video" role="tabpanel" aria-labelledby="custom-tabs-three-video-tab">
-            <video width="100%" height="100%" controls>
-              <source src="videos/Genetic_Counseling_and_Testing.mp4" type="video/mp4">
-              Your browser does not support the video tag.
-            </video>
+            <div style="max-width: 900px; margin: 0 auto; padding: 10px 0;">
+              <div style="position: relative; width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+                <video controls preload="metadata" playsinline style="width: 100%; height: 100%; object-fit: contain; display: block;">
+                  <source src="videos/Genetic_Counseling_and_Testing.mp4" type="video/mp4">
+                  <source src="videos/Genetic%20Counseling%20and%20Testing.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -94,6 +99,10 @@
 <script>
   // Ensure jQuery is loaded before using it
   $(document).ready(function() {
+    $('a[data-toggle="pill"]').on('hide.bs.tab', function () {
+      $('video').each(function () { this.pause(); });
+    });
+
     $('#btn_next_v1').click(function() {
       // Save the change locally to indicate that the user has completed this step
       localStorage.setItem('link2Changed', 'true');

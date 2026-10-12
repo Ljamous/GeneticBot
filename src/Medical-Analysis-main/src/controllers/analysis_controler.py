@@ -50,16 +50,56 @@ logger.addHandler(ch)
 MedicalRouter = APIRouter()
 templates = Jinja2Templates(directory="templates")
 
+# Helper functions to handle raw binary bytes, PDF, and DOCX safely
+def to_bytes(data) -> bytes:
+    """Safely converts input data (bytes, bytearray, base64-string) to raw bytes."""
+    if not data:
+        return b""
+    if isinstance(data, (bytes, bytearray)):
+        raw = bytes(data)
+        if raw.startswith(b"%PDF") or raw.startswith(b"PK") or raw.startswith(b"\xff\xd8") or raw.startswith(b"\x89PNG"):
+            return raw
+        try:
+            decoded = base64.b64decode(raw)
+            if decoded.startswith(b"%PDF") or decoded.startswith(b"PK") or decoded.startswith(b"\xff\xd8") or decoded.startswith(b"\x89PNG"):
+                return decoded
+        except Exception:
+            pass
+        return raw
+    if isinstance(data, str):
+        cleaned = data.strip()
+        if cleaned.startswith("data:"):
+            cleaned = cleaned.split(",", 1)[-1]
+        try:
+            return base64.b64decode(cleaned)
+        except Exception:
+            return cleaned.encode("utf-8")
+    return bytes(data)
+
+
+def extract_text_from_pdf(pdf_bytes: bytes) -> str:
+    """Extracts text content from PDF binary bytes."""
+    pdf_reader = PyPDF2.PdfReader(BytesIO(pdf_bytes))
+    text_parts = []
+    for page in pdf_reader.pages:
+        page_text = page.extract_text()
+        if page_text:
+            text_parts.append(page_text.strip())
+    return "\n".join(text_parts)
+
+
+def extract_text_from_docx(docx_bytes: bytes) -> str:
+    """Extracts text content from DOCX binary bytes."""
+    doc = Document(BytesIO(docx_bytes))
+    return "\n".join([p.text for p in doc.paragraphs if p.text])
+
+
 # Function to read and extract text from the docx file
 def read_docx_file(file_content): 
     try:
-        # Use BytesIO to read the content into a docx Document object
-        docs = Document(BytesIO(file_content))
-        # Extract and return the text content from the .docx file
-        doc_text = "\n".join([para.text for para in docs.paragraphs])
-        return doc_text
+        return extract_text_from_docx(to_bytes(file_content))
     except Exception as e:
-        logger.error(f"Error reading .docx file: {str(e)}")  # Log the error
+        logger.error(f"Error reading .docx file: {str(e)}")
         return f"Error reading .docx file: {str(e)}"
 
 # @MedicalRouter.post("/analysis/")
@@ -73,10 +113,10 @@ async def analysis(request: AnalysisRequest):
         userId = request.userId
         useUploadedFile = request.useUploadedFile
         db_config = {
-        "host": DB_HOST,
-        "user": DB_USER,
-        "password": DB_PASSWORD,
-        "database": DB_NAME
+            "host": DB_HOST,
+            "user": DB_USER,
+            "password": DB_PASSWORD,
+            "database": DB_NAME
         }
         service = analysis_service(db_config)
         db_data = service.get_user_data(userId)
@@ -101,109 +141,78 @@ async def analysis(request: AnalysisRequest):
 
         frame = None
         docs = None
-        filetype = pedigree.get("filetype", "").lower()
+        filetype = (pedigree.get("filetype") or "").lower()
 
+        # Decide source of pedigree data
+        has_img = bool(img_data)
+        has_csv = bool(pedigree.get("csv"))
+
+        use_uploaded = False
         if useUploadedFile is True:
-            # Use image from `pedigree.img`
-
-            if img_data:
-                if filetype == "application/pdf":
-                    try:
-                        file_content = base64.b64decode(img_data)
-                        pdf_reader = PyPDF2.PdfReader(BytesIO(file_content))
-                        text = ""
-                        for page in pdf_reader.pages:
-                            text += page.extract_text()
-                        frame = text
-                        logger.info("PDF text extracted.")
-                    except Exception as e:
-                        logger.error(f"Error processing PDF: {e}")
-                        raise HTTPException(status_code=500, detail=f"Error processing PDF: {e}")
-
-                elif filetype.startswith("image/"):
-                    frame = base64.b64encode(img_data).decode("utf-8")
-                    logger.info("Image from pedigree encoded as base64.")
-
-                elif filetype == "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-                    try:
-                        file_content = base64.b64decode(img_data)
-                        doc = Document(BytesIO(file_content))
-                        frame = "\n".join([p.text for p in doc.paragraphs])
-                        logger.info("DOCX text extracted.")
-                    except Exception as e:
-                        logger.error(f"Error processing DOCX: {e}")
-                        raise HTTPException(status_code=500, detail=f"Error processing DOCX: {e}")
-                else:
-                    logger.warning(f"Unsupported file type in 'img': {filetype}")
-
+            use_uploaded = has_img
         elif useUploadedFile is False:
-            # Use JSON text from `pedigree.csv`
-            csv_data = pedigree.get("csv")
-            if csv_data:
-                frame = csv_data
-                logger.info("CSV from pedigree loaded as JSON string.")
-                filetype = 'json'
-            else:
-                if img_data :
-                    if filetype == "application/pdf":
-                        try:
-                            file_content = base64.b64decode(img_data)
-                            pdf_reader = PyPDF2.PdfReader(BytesIO(file_content))
-                            text = ""
-                            for page in pdf_reader.pages:
-                                text += page.extract_text()
-                            frame = text
-                            logger.info("PDF text extracted.")
-                        except Exception as e:
-                            logger.error(f"Error processing PDF: {e}")
-                            raise HTTPException(status_code=500, detail=f"Error processing PDF: {e}")
-
-                    elif filetype.startswith("image/"):
-                        frame = base64.b64encode(img_data).decode("utf-8")
-                        logger.info("Image from pedigree encoded as base64.")
-
-                    elif filetype == "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-                        try:
-                            file_content = base64.b64decode(img_data)
-                            doc = Document(BytesIO(file_content))
-                            frame = "\n".join([p.text for p in doc.paragraphs])
-                            logger.info("DOCX text extracted.")
-                        except Exception as e:
-                            logger.error(f"Error processing DOCX: {e}")
-                            raise HTTPException(status_code=500, detail=f"Error processing DOCX: {e}")
-                    else:
-                        logger.warning("No CSV data found in pedigree.")
-
+            use_uploaded = not has_csv and has_img
         else:
-            img_data = pedigree.get("img")
-            if img_data:
-                frame = base64.b64encode(img_data).decode("utf-8")
-                logger.info("Image from pedigree used as fallback and encoded as base64.")
-                filetype = "image"
+            use_uploaded = has_img
+
+        if use_uploaded and has_img:
+            raw_bytes = to_bytes(img_data)
+            if filetype == "application/pdf" or raw_bytes.startswith(b"%PDF"):
+                try:
+                    frame = extract_text_from_pdf(raw_bytes)
+                    filetype = "application/pdf"
+                    logger.info("PDF text extracted from pedigree.")
+                except Exception as e:
+                    logger.error(f"Error processing PDF: {e}")
+                    raise HTTPException(status_code=500, detail=f"Error processing PDF: {e}")
+
+            elif filetype.startswith("image/") or raw_bytes.startswith(b"\xff\xd8") or raw_bytes.startswith(b"\x89PNG"):
+                frame = base64.b64encode(raw_bytes).decode("utf-8")
+                if not filetype.startswith("image/"):
+                    filetype = "image/png" if raw_bytes.startswith(b"\x89PNG") else "image/jpeg"
+                logger.info("Image from pedigree encoded as base64.")
+
+            elif filetype == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" or raw_bytes.startswith(b"PK"):
+                try:
+                    frame = extract_text_from_docx(raw_bytes)
+                    filetype = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                    logger.info("DOCX text extracted from pedigree.")
+                except Exception as e:
+                    logger.error(f"Error processing DOCX: {e}")
+                    raise HTTPException(status_code=500, detail=f"Error processing DOCX: {e}")
             else:
-                csv_data = pedigree.get("csv")
-                if csv_data:
-                    frame = csv_data
-                    logger.info("CSV from pedigree used as fallback and loaded as JSON string.")
-                    filetype = "json"
-                else:
-                    logger.warning("No image or CSV data found in pedigree.")
-                    frame = None
-                    filetype = None
+                logger.warning(f"Unsupported file type in 'img': {filetype}")
+
+        elif has_csv:
+            frame = pedigree.get("csv")
+            filetype = "json"
+            logger.info("CSV from pedigree loaded as JSON string.")
+        else:
+            logger.warning("No image or CSV data found in pedigree.")
+            frame = None
+            filetype = None
+
+        # Parse clinical history document (supports both DOCX and PDF)
+        histology_content = to_bytes(clinical.get("histologyReportContent"))
+        histology_type = (clinical.get("histologyReportType") or "").lower()
+        histology_name = (clinical.get("histologyReportName") or "").lower()
 
         try:
-            docx_obj = Document(BytesIO(clinical["histologyReportContent"]))
-            docs = "\n".join([p.text for p in docx_obj.paragraphs])
-            logger.info("DOCX content parsed from clinical report.")
+            if histology_type == "application/pdf" or histology_name.endswith(".pdf") or histology_content.startswith(b"%PDF"):
+                docs = extract_text_from_pdf(histology_content)
+                logger.info("PDF content parsed from clinical report.")
+            else:
+                docs = extract_text_from_docx(histology_content)
+                logger.info("DOCX content parsed from clinical report.")
         except Exception as e:
-            logger.error(f"Failed to parse DOCX content: {str(e)}")
-            raise HTTPException(status_code=500, detail="Failed to parse clinical DOCX file.")
+            logger.error(f"Failed to parse clinical report content: {str(e)}")
+            raise HTTPException(status_code=500, detail=f"Failed to parse clinical report file: {str(e)}")
 
         logger.info("Preparing to generate AI report with the following parameters:")
         logger.info(f"User ID: {userId}")
         logger.info(f"Use Uploaded File: {useUploadedFile}")
         logger.info(f"Filetype: {filetype}")
-        logger.info(f"Docs: {docs}")
+        logger.info(f"Docs length: {len(docs) if docs else 0}")
 
         result = service.generate_ai_report(
             frame=frame,
@@ -219,6 +228,8 @@ async def analysis(request: AnalysisRequest):
     except mysql.connector.Error as e:
         logger.error(f"Database error: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
+    except HTTPException:
+        raise
     except Exception as e:
         error_message = str(e).strip() or "Unknown internal error"
         logger.error(f"Unexpected error: {error_message}")

@@ -7,6 +7,7 @@
 
 import sys
 import uuid
+from pathlib import Path
 
 from dotenv import load_dotenv, find_dotenv
 from llama_index.core import SimpleDirectoryReader, Document, VectorStoreIndex
@@ -15,7 +16,15 @@ from llama_index.core.memory import ChatMemoryBuffer
 from llama_index.llms.openai import OpenAI
 
 
-load_dotenv(find_dotenv())
+# Prioritize the central root .env file so all configs are managed in one single file
+for parent in Path(__file__).resolve().parents:
+    if (parent / "docker-compose.yml").is_file() or (parent / ".git").is_dir():
+        root_env = parent / ".env"
+        if root_env.is_file():
+            load_dotenv(dotenv_path=root_env, override=True)
+            break
+else:
+    load_dotenv(find_dotenv())
 
 genetic_bot_prompt = """
 You are GeneticBot, an AI assistant able to help with providing insights on guidelines for cancer detection and treatment.

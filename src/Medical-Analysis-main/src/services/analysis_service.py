@@ -80,30 +80,17 @@ class analysis_service:
             if conn: conn.close()
 
     def generate_ai_report(self, frame, docs, userId=None, filetype=None, userUploadedFile=False):
-        prompt_context = self.create_prompt(frame, docs, filetype)
-        file_id = None
-
         try:
-            if filetype == "application/pdf":
-                try:
-                    file_data = base64.b64decode(frame)
-                    with BytesIO(file_data) as pdf_file:
-                        pdf_file.name = "report.pdf"
-                        uploaded_file = openai.File.create(file=pdf_file, purpose='assistants')
-                    file_id = uploaded_file.id
-                    logger.info(f"PDF uploaded: file ID = {file_id}")
-                except Exception as e:
-                    logger.error("PDF upload error: %s", e)
-                    return {"error": "Failed to upload PDF", "status_code": 500}
+            prompt_text = self.create_prompt(frame, docs, filetype)
 
             messages = [{
                 "role": "user",
                 "content": [
-                    {"type": "text", "text": self.create_prompt(frame, docs, filetype, file_id)}
+                    {"type": "text", "text": prompt_text}
                 ]
             }]
 
-            if frame and filetype.startswith("image/"):
+            if frame and filetype and filetype.startswith("image/"):
                 messages[0]["content"].append({
                     "type": "image_url",
                     "image_url": {"url": f"data:{filetype};base64,{frame}"}
@@ -128,25 +115,27 @@ class analysis_service:
 
         except Exception as e:
             logger.error("Error generating AI report: %s", e, exc_info=True)
-            return {"error": "AI processing failed", "status_code": 500}
+            return {"error": f"AI processing failed: {str(e)}", "status_code": 500}
             
     def convert_to_json_object(self, json_string: str):
         try:
-            # Strip leading/trailing whitespace
             json_string = json_string.strip()
             logger.debug(f"Raw input string (first 200 chars): {json_string[:200]}...")
 
             # Remove markdown-style code block markers if present
-            if json_string.startswith("```") and json_string.endswith("```"):
+            if json_string.startswith("```"):
                 lines = json_string.splitlines()
-                if len(lines) >= 2:
-                    # Remove the first and last lines (e.g., ```json and ```)
+                if len(lines) >= 2 and lines[-1].strip().startswith("```"):
                     json_string = "\n".join(lines[1:-1]).strip()
             
-            # Attempt to load JSON
+            # Locate first { and last } to strip any peripheral text
+            start_index = json_string.find("{")
+            end_index = json_string.rfind("}")
+            if start_index != -1 and end_index != -1:
+                json_string = json_string[start_index:end_index + 1].strip()
+
             data = json.loads(json_string)
 
-            # Ensure the loaded JSON is a dictionary (object)
             if not isinstance(data, dict):
                 logger.warning("Parsed JSON is not a dictionary.")
                 return None
@@ -214,16 +203,21 @@ class analysis_service:
         )
         return prompt_text
         
-    def create_prompt(self, frame, docs, filetype, file_id=None):
+    def create_prompt(self, frame, docs, filetype=None, file_id=None):
         example_data = self.read_json_file("src/services/example.json")
         evaluation_rules = self.read_text_file(self.context_path)
         example_context = json.dumps(example_data, indent=4) if example_data else "No example available."
         
+        pedigree_section = ""
+        if frame and (not filetype or not filetype.startswith("image/")):
+            pedigree_section = f"\n\nPedigree / Family History Data:\n{frame}\n"
+
         prompt_text = (
         f"Context: You are tasked with determining the patient's eligibility for NCCN genetic testing "
         f"(BRCA1, BRCA2, CDH1, PALB2, PTEN, STK11, TP53) based on a pathology report and pedigree analysis. "
         f"Use the evaluation rules provided below, and structure your output according to the specified format.\n\n"
-        f"Document:\n{docs}\n\n"
+        f"Document:\n{docs}\n"
+        f"{pedigree_section}\n"
         f"Evaluation Rules:\n{evaluation_rules}\n\n"
         f"Clarification for Rule Matching:\n"
         f"- Do NOT assume eligibility unless one or more NCCN criteria are explicitly met.\n"
@@ -341,6 +335,8 @@ class analysis_service:
         return ""
 
     def store_report_in_db(self, user_id, report_dict):
+        conn = None
+        cursor = None
         try:
             conn = self.get_db()
             if conn is None:
@@ -359,6 +355,7 @@ class analysis_service:
         except Exception as e:
             logger.error("Failed to store report in database: %s", e, exc_info=True)
         finally:
-            if conn and conn.is_connected():
+            if cursor:
                 cursor.close()
+            if conn and conn.is_connected():
                 conn.close()

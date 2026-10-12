@@ -65,10 +65,15 @@
                     <br/>
                 </div>
                   <div class="tab-pane fade" id="custom-tabs-three-video" role="tabpanel" aria-labelledby="custom-tabs-three-video-tab">
-                  <video width="100%" height="100%" controls>
-                    <source src="videos/Multigene panel and Outcome results.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                  </video>
+                    <div style="max-width: 900px; margin: 0 auto; padding: 10px 0;">
+                      <div style="position: relative; width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+                        <video controls preload="metadata" playsinline style="width: 100%; height: 100%; object-fit: contain; display: block;">
+                          <source src="videos/Multigene%20panel%20and%20Outcome%20results.mp4" type="video/mp4">
+                          <source src="videos/Multigene panel and Outcome results.mp4" type="video/mp4">
+                          Your browser does not support the video tag.
+                        </video>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
@@ -95,13 +100,18 @@
   <!-- /.content-wrapper -->
 
   <script>
-    $(btn_next_v1).click(function(){
+    $(document).ready(function() {
+      $('a[data-toggle="pill"]').on('hide.bs.tab', function () {
+        $('video').each(function () { this.pause(); });
+      });
 
-      // Save the change locally
-      localStorage.setItem('link8Changed', 'true');
+      $('#btn_next_v1').click(function(){
+        // Save the change locally
+        localStorage.setItem('link8Changed', 'true');
 
-      // Move to the next page
-      window.location = "Benefits_Risks_and_Limitations_of_the_genetic_testing.php";
+        // Move to the next page
+        window.location = "Benefits_Risks_and_Limitations_of_the_genetic_testing.php";
+      });
     });
   </script>
 

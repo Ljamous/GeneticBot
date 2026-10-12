@@ -46,42 +46,51 @@ C:\xampp\htdocs\Lama2\
 
 **Note**: You can use any location, but you'll need to update the configuration accordingly.
 
-### 3. Configure Environment Variables
+### 3. Configure Environment Variables (Single Centralized Configuration)
 
-#### Create `.env` file for Medical-Analysis
+All configurations including `OPENAI_API_KEY`, database settings, and service ports are managed in a single `.env` file at the root of the project (`.env`).
 
-Create a file at `src\Medical-Analysis-main\.env`:
+Create the root `.env` file from the example template:
+
+```powershell
+copy .env.example .env
+```
+
+Or edit `.env` directly:
 
 ```env
-# Project Details
-PROJECT_NAME=Phonetics
-DESCRIPTION=Phonetic Transliteration API
-
-# FastAPI Config
-HOST=0.0.0.0
-PORT=8000
-DEBUG=false
-VERSION=1.0.0
-LOG_LEVEL=info
-
-# OpenAI API (if needed)
-OPENAI_API_KEY=your_openai_key_here
+# OpenAI API
+OPENAI_API_KEY=your_openai_api_key_here
+OPENAI_MODEL=gpt-4o
 
 # MySQL Database
 DB_HOST=localhost
+DOCKER_DB_HOST=db
+DB_PORT=3306
+DB_EXTERNAL_PORT=3307
 DB_USER=db_user
 DB_PASSWORD=db_password
 DB_NAME=app_db
+MYSQL_ROOT_PASSWORD=db_password
+
+# Medical Analysis API
+PROJECT_NAME="Medical Analysis"
+DESCRIPTION="Medical Analysis API"
+HOST=0.0.0.0
+PORT=8000
+DEBUG=true
+VERSION="1.0.0"
+LOG_LEVEL="INFO"
+SECRET_KEY="rE}.;m<:^xI2FEx~5Z&U:L3"
+
+# Service Ports
+SYSTEM_PORT=80
+MEDICAL_ANALYSIS_PORT=8000
+PEDIGREE_PORT=8001
+GENETIC_BOT_PORT=8501
 ```
 
-#### Create `.env` file for genetic_bot
-
-Create a file at `src\genetic_bot\.env`:
-
-```env
-# Add any required API keys or configuration
-OPENAI_API_KEY=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
-```
+> **Important**: This single `.env` file is used across all services and Docker containers. Whenever you need to update your OpenAI API key or any setting, edit only this file without changing any code.
 
 ### 4. Set Up Python Virtual Environments
 

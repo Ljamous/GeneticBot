@@ -6,9 +6,18 @@
 # ==============================================================================
 
 from os import getenv
-from dotenv import load_dotenv
+from pathlib import Path
+from dotenv import load_dotenv, find_dotenv
 
-load_dotenv()
+# Prioritize the central root .env file so all configs are managed in one single file
+for parent in Path(__file__).resolve().parents:
+    if (parent / "docker-compose.yml").is_file() or (parent / ".git").is_dir():
+        root_env = parent / ".env"
+        if root_env.is_file():
+            load_dotenv(dotenv_path=root_env, override=True)
+            break
+else:
+    load_dotenv(find_dotenv())
 
 
 def str_to_bool(value: str) -> bool:

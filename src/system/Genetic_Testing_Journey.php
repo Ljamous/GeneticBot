@@ -64,10 +64,15 @@
 
           <!-- Video Tab Content -->
           <div class="tab-pane fade" id="custom-tabs-three-video" role="tabpanel" aria-labelledby="custom-tabs-three-video-tab">
-            <video width="100%" height="100%" controls>
-              <source src="videos/Genetic Testing Journey_ Decision Aid System.mp4" type="video/mp4">
-              Your browser does not support the video tag.
-            </video>
+            <div style="max-width: 900px; margin: 0 auto; padding: 10px 0;">
+              <div style="position: relative; width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+                <video controls preload="metadata" playsinline style="width: 100%; height: 100%; object-fit: contain; display: block;">
+                  <source src="videos/Genetic%20Testing%20Journey_%20Decision%20Aid%20System.mp4" type="video/mp4">
+                  <source src="videos/Genetic Testing Journey_ Decision Aid System.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -93,6 +98,10 @@
 
 <script>
   $(document).ready(function() {
+    $('a[data-toggle="pill"]').on('hide.bs.tab', function () {
+      $('video').each(function () { this.pause(); });
+    });
+
     $('#btn_next_v2').click(function() {
       // Save the change locally
       localStorage.setItem('link3Changed', 'true');

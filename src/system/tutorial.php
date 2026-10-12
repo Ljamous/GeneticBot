@@ -53,18 +53,26 @@
   <div class="tab-content" id="custom-tabs-three-tabContent">
     <!-- Video1 -->
     <div class="tab-pane fade show active" id="video1" role="tabpanel" aria-labelledby="video1-tab">
-      <video width="100%" height="100%" controls>
-        <source src="videos/tutorial.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
+      <div style="max-width: 900px; margin: 0 auto; padding: 10px 0;">
+        <div style="position: relative; width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+          <video controls preload="metadata" playsinline style="width: 100%; height: 100%; object-fit: contain; display: block;">
+            <source src="videos/tutorial.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
     </div>
 
     <!-- Video2 -->
     <div class="tab-pane fade" id="video2" role="tabpanel" aria-labelledby="video2-tab">
-      <video width="100%" height="100%" controls>
-        <source src="videos/tutorial.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
+      <div style="max-width: 900px; margin: 0 auto; padding: 10px 0;">
+        <div style="position: relative; width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+          <video controls preload="metadata" playsinline style="width: 100%; height: 100%; object-fit: contain; display: block;">
+            <source src="videos/tutorial2.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -72,14 +80,12 @@
   <div class="text-center mt-3">
     <b>Please Click 'Next' once you've completed watching the tutorial videos.</b>
   </div>
-
-  <!-- Button Section -->
-  <div class="card-footer">
-    <button type="button" class="btn btn-info float-right" style="background-color: #2D4B69;" id="btn_next_v2">Next</button>
-  </div>
 </div>
-     
 
+<!-- Button Section -->
+<div class="card-footer">
+  <button type="button" class="btn btn-info float-right" style="background-color: #2D4B69;" id="btn_next_v2">Next</button>
+</div>
        
       <!-- /.card -->
     </div>
@@ -90,6 +96,10 @@
 
 <script>
   $(document).ready(function() {
+    $('a[data-toggle="tab"]').on('hide.bs.tab', function () {
+      $('video').each(function () { this.pause(); });
+    });
+
     $('#btn_next_v2').click(function() {
       // Save the change locally
       localStorage.setItem('tutorialWatched', 'true');

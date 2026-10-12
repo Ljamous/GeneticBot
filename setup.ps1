@@ -136,29 +136,19 @@ if (-not $SkipVenv) {
     }
 }
 
-# Create .env files from examples if they don't exist
+# Create central .env file from example if it doesn't exist
 Write-Host "`n============================================" -ForegroundColor Cyan
 Write-Host "Setting up Configuration Files" -ForegroundColor Cyan
 Write-Host "============================================" -ForegroundColor Cyan
 
-$medicalEnvExample = Join-Path $InstallPath "src\Medical-Analysis-main\.env.example"
-$medicalEnv = Join-Path $InstallPath "src\Medical-Analysis-main\.env"
-if ((Test-Path $medicalEnvExample) -and -not (Test-Path $medicalEnv)) {
-    Copy-Item $medicalEnvExample $medicalEnv
-    Write-Host "✓ Created .env for Medical-Analysis" -ForegroundColor Green
-    Write-Host "  ⚠ Remember to update API keys and database credentials!" -ForegroundColor Yellow
-} elseif (Test-Path $medicalEnv) {
-    Write-Host "✓ .env already exists for Medical-Analysis" -ForegroundColor Green
-}
-
-$chatbotEnvExample = Join-Path $InstallPath "src\genetic_bot\.env.example"
-$chatbotEnv = Join-Path $InstallPath "src\genetic_bot\.env"
-if ((Test-Path $chatbotEnvExample) -and -not (Test-Path $chatbotEnv)) {
-    Copy-Item $chatbotEnvExample $chatbotEnv
-    Write-Host "✓ Created .env for GeneticBot" -ForegroundColor Green
-    Write-Host "  ⚠ Remember to update API keys!" -ForegroundColor Yellow
-} elseif (Test-Path $chatbotEnv) {
-    Write-Host "✓ .env already exists for GeneticBot" -ForegroundColor Green
+$rootEnvExample = Join-Path $InstallPath ".env.example"
+$rootEnv = Join-Path $InstallPath ".env"
+if ((Test-Path $rootEnvExample) -and -not (Test-Path $rootEnv)) {
+    Copy-Item $rootEnvExample $rootEnv
+    Write-Host "✓ Created central .env configuration file" -ForegroundColor Green
+    Write-Host "  ⚠ Remember to update OPENAI_API_KEY and credentials in $rootEnv!" -ForegroundColor Yellow
+} elseif (Test-Path $rootEnv) {
+    Write-Host "✓ Central .env already exists" -ForegroundColor Green
 }
 
 # Summary
@@ -167,9 +157,8 @@ Write-Host "Setup Complete!" -ForegroundColor Green
 Write-Host "============================================" -ForegroundColor Green
 
 Write-Host "`nNext Steps:" -ForegroundColor Yellow
-Write-Host "  1. Configure .env files with your API keys and database credentials" -ForegroundColor White
-Write-Host "     - $medicalEnv" -ForegroundColor Gray
-Write-Host "     - $chatbotEnv" -ForegroundColor Gray
+Write-Host "  1. Configure your central .env file with your OpenAI API key and database credentials:" -ForegroundColor White
+Write-Host "     - $rootEnv" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "  2. Set up MySQL database:" -ForegroundColor White
 Write-Host "     - Create database 'app_db'" -ForegroundColor Gray

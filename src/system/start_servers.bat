@@ -19,6 +19,14 @@ set "BASE_PATH=d:\Shared\Lama2\Lama\src"
 :: Set XAMPP installation path
 set "XAMPP_PATH=C:\xampp"
 
+:: Load central root .env configuration if present
+set "ENV_FILE=%BASE_PATH%\..\.env"
+if exist "%ENV_FILE%" (
+    for /f "usebackq eol=# tokens=1* delims==" %%A in ("%ENV_FILE%") do (
+        if not "%%A"=="" if not "%%B"=="" set "%%A=%%B"
+    )
+)
+
 :: ============================================
 :: END CONFIGURATION SECTION
 :: ============================================
